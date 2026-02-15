@@ -1,16 +1,16 @@
-#include "QHistogram.hh"
+#include "QH2.hh"
 
 #include "TFile.h"
 
 #include <stdexcept>
 
-QHistogram::QHistogram(const std::string &batch,
-                       const std::string &polarity,
-                       const std::string &first_particle,
-                       const std::string &second_particle,
-                       const std::string &identification_type,
-                       const double       cut_value,
-                       const std::string &directory){
+QH2::QH2(const std::string &batch,
+         const std::string &polarity,
+         const std::string &first_particle,
+         const std::string &second_particle,
+         const std::string &identification_type,
+         const double       cut_value,
+         const std::string &directory){
     // Write the property of the histogram 
     _property = new QProperty(batch,
                               polarity,
@@ -31,15 +31,13 @@ QHistogram::QHistogram(const std::string &batch,
     TH2D *passed = dynamic_cast<TH2D*>(file->Get(passing_cut_string.c_str()));
     if (!total || !passed) throw std::runtime_error(("Missing histograms in file " + _path).c_str());
     _total = dynamic_cast<TH2D*>(total->Clone());
-    _total->SetDirectory(nullptr);
     _passed = dynamic_cast<TH2D*>(passed->Clone());
-    _passed->SetDirectory(nullptr);
 
     file->Close();
     delete file;
 }
 
-QHistogram::~QHistogram(){
+QH2::~QH2(){
     if (_total)    delete _total;
     if (_passed)   delete _passed; 
     if (_property) delete _property; 
