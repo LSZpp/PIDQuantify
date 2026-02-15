@@ -1,6 +1,7 @@
 #ifndef QH2_HH
 #define QH2_HH
 
+
 // The QH2 class 
 // LSZ 14 Feb 25
 
@@ -30,7 +31,7 @@ public:
         const std::string &directory);
                      // constructor
 
-    ~QH2();          // destructor
+    virtual ~QH2();          // destructor
 };
 
 #endif

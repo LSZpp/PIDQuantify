@@ -5,12 +5,13 @@
 // The QH2Perf class 
 // LSZ 15 Feb 25
 
-// A class inherited from QH2, which stores the 1-dimensional 
-// projections of the efficiencies
+// A class inherited from QH2, which stores the 1-dimensional projections of the efficiencies
+// This object is exactly what is needed for performance histograms
 
 #include "QH2.hh"
 
 #include "TH1D.h"
+#include "TGraphErrors.h"
 
 class QH2Perf : public QH2{
 private:
@@ -20,9 +21,9 @@ private:
     TH1D *_passed_p   = nullptr; 
     TH1D *_passed_eta = nullptr; 
 
-    // efficiency histograms for p and eta (these are the performance histograms to be plotted) 
-    TH1D *_eff_p   = nullptr;
-    TH1D *_eff_eta = nullptr;
+    // efficiencies for p and eta (these are the performance histograms to be plotted) 
+    TGraphErrors *_eff_p   = nullptr;
+    TGraphErrors *_eff_eta = nullptr;
 
     void _project();       // projects the 2d histograms into 1d histograms
     void _calculate_eff(); // divides the passed histograms by the total histograms to get the efficiencies
@@ -38,8 +39,8 @@ public:
             //constructor
     
     // getters for the efficiencies
-    TH1D *eff_p()   const;
-    TH1D *eff_eta() const;
+    TGraphErrors *eff_p()   const;
+    TGraphErrors *eff_eta() const;
 
     virtual ~QH2Perf();  // destructor
 };

@@ -1,6 +1,7 @@
 #ifndef QPROPERTY_HH
 #define QPROPERTY_HH
 
+
 // The QProperty class 
 // LSZ 15 Feb 25
 

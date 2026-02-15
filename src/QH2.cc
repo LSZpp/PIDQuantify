@@ -30,15 +30,19 @@ QH2::QH2(const std::string &batch,
     std::string passing_cut_string = "passing_" + _property->construct_cut_string();
     TH2D *passed = dynamic_cast<TH2D*>(file->Get(passing_cut_string.c_str()));
     if (!total || !passed) throw std::runtime_error(("Missing histograms in file " + _path).c_str());
-    _total = dynamic_cast<TH2D*>(total->Clone());
+    _total  = dynamic_cast<TH2D*>(total ->Clone());
     _passed = dynamic_cast<TH2D*>(passed->Clone());
+
+    // Detach _total and _passed from their current directories
+    _total ->SetDirectory(nullptr);
+    _passed->SetDirectory(nullptr);
 
     file->Close();
     delete file;
 }
 
 QH2::~QH2(){
-    if (_total)    delete _total;
-    if (_passed)   delete _passed; 
-    if (_property) delete _property; 
+    delete _total;
+    delete _passed; 
+    delete _property; 
 }
