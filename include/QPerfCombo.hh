@@ -26,8 +26,8 @@ public:
     QPerfCombo(const std::string &batch, 
                const std::string &polarity,
                const std::string &directory,
-               double             cut_value_loose,
-               double             cut_value_strict);
+               double             cut_value_loose  = 0.,
+               double             cut_value_strict = 5.);
                // constructor
 
     void export_canvases();

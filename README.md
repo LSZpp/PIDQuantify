@@ -31,4 +31,4 @@ make install
 
 usage
 ------------------------
-Simple examples for the 2024 and 2025 cases can be found inside the /figures directory (not ready yet)
+Simple examples can be found inside the `/figures` directory

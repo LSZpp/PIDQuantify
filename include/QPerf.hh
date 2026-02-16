@@ -25,6 +25,8 @@ private:
     const std::string _first_particle;      // the particle demonstrated by the performance figure
     const std::string _second_particle;     // the secondary particle used to construct the cut
     const std::string _directory;           // the directory of the efficiency histograms
+    const double      _cut_value_loose;     // the cut value for the loose cut
+    const double      _cut_value_strict;    // the cut value for the strict cut
     
     TCanvas *_canvas_p   = nullptr;  // performance histograms binned in momentum
     TCanvas *_canvas_eta = nullptr;  // performance histograms binned in pseudorapidity
