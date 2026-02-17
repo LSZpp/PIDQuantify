@@ -5,7 +5,7 @@
 // The QROCCollection class 
 // LSZ 17 Feb 26
 
-// A class that stores many ROC curves with and compares them
+// A class that stores many ROC curves and allows the user to compare them
 
 #include "QROCCurve.hh"
 

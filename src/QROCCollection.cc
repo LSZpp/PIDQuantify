@@ -24,14 +24,14 @@ QROCCollection::QROCCollection(const std::string &first_particle,
 void QROCCollection::add_curve(const std::string &batch, 
                                const std::string &polarity, 
                                const std::string &name){
-    QROCCurve *curve= new QROCCurve(batch,
-                                    polarity,
-                                    _first_particle,
-                                    _second_particle,
-                                    _loosest_cut,
-                                    _strictest_cut,
-                                    _cut_interval,
-                                    _directory);
+    QROCCurve *curve = new QROCCurve(batch,
+                                     polarity,
+                                     _first_particle,
+                                     _second_particle,
+                                     _loosest_cut,
+                                     _strictest_cut,
+                                     _cut_interval,
+                                     _directory);
     _curves.insert({name, curve});
 }
 
@@ -67,7 +67,8 @@ void QROCCollection::create_figure(const std::string &canvas_name){
          curves_iterator++){
         TGraphErrors *curve = curves_iterator->second->get_curve();
         curve->Draw(curve_count == 0 ? "ALP" : "LP SAME");
-        curve->SetMarkerStyle(5);
+        curve->SetMarkerStyle(21);
+        curve->SetMarkerSize(.6);
         curve->SetMarkerColor(starting_colour + curve_count);
         curve->SetLineColor(starting_colour + curve_count);
         curve->SetTitle("");
