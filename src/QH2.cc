@@ -3,6 +3,7 @@
 #include "TFile.h"
 
 #include <stdexcept>
+#include <iostream>
 
 QH2::QH2(const std::string &batch,
          const std::string &polarity,
@@ -40,6 +41,9 @@ QH2::QH2(const std::string &batch,
     file->Close();
     delete file;
 }
+
+double QH2::sum_total (){return _total->Integral(); }
+double QH2::sum_passed(){return _passed->Integral();}
 
 QH2::~QH2(){
     delete _total;

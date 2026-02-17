@@ -3,7 +3,7 @@
 
 
 // The QPerf class 
-// LSZ 15 Feb 25
+// LSZ 15 Feb 26
 
 // A class that contains everything that is needed for a performance histogram
 

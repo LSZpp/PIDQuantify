@@ -3,7 +3,7 @@
 
 
 // The QPerfCombo class
-// LSZ 15 Feb 25
+// LSZ 15 Feb 26
 
 // A class that creates, stores and prints out all possible combinations of performance figures
 

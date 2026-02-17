@@ -3,7 +3,7 @@
 
 
 // The QH2 class 
-// LSZ 14 Feb 25
+// LSZ 14 Feb 26
 
 // A class storing a particular efficiency histogram binned in momentum and pseudorapidity and its settings
 
@@ -12,7 +12,6 @@
 #include "TH2D.h"
 
 #include <string> 
-#include <iostream>
 
 class QH2{
 protected:
@@ -30,6 +29,9 @@ public:
         const double       cut_value,
         const std::string &directory);
                      // constructor
+
+    double sum_total ();
+    double sum_passed();   // Integral() of the total and passed histograms across all phase space
 
     virtual ~QH2();          // destructor
 };

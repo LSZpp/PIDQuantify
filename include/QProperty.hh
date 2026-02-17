@@ -3,7 +3,7 @@
 
 
 // The QProperty class 
-// LSZ 15 Feb 25
+// LSZ 15 Feb 26
 
 // A class storing the property of a particular efficiency histogram
 

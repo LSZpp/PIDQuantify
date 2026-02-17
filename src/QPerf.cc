@@ -38,7 +38,7 @@ TCanvas *QPerf::_create_figure(const std::string &canvas_name,
     TGraphErrors *hist_strict_misID = (_perf_hist_strict_misID->*eff)();
 
     canvas->cd(); 
-    gPad->SetTopMargin(0.05);
+    gPad->SetTopMargin(.05);
 
     // Provide some formatting to all histograms
     auto formatting = [&](TGraphErrors  *graph,
@@ -102,9 +102,9 @@ TCanvas *QPerf::_create_figure(const std::string &canvas_name,
     std::string latex_beam_energy_string = "#sqrt{#it{s}} = 13.6 TeV Data";
     latex.DrawLatex(.15, .85, latex_dataset_string.c_str());
     latex.DrawLatex(.15, .79, latex_beam_energy_string.c_str());
-    latex.DrawLatex(.35, .28, latex_string_misID.c_str());
+    latex.DrawLatex(.35, .22, latex_string_misID.c_str());
     latex.SetTextColor(kRed);
-    latex.DrawLatex(.35, .55, latex_string_ID   .c_str());
+    latex.DrawLatex(.35, .58, latex_string_ID   .c_str());
 
     std::string latex_cut_value_loose   = cut_to_string(_cut_value_loose );
     std::string latex_cut_value_strict  = cut_to_string(_cut_value_strict);

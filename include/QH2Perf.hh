@@ -3,7 +3,7 @@
 
 
 // The QH2Perf class 
-// LSZ 15 Feb 25
+// LSZ 15 Feb 26
 
 // A class inherited from QH2, which stores the 1-dimensional projections of the efficiencies
 // This object is exactly what is needed for performance histograms
