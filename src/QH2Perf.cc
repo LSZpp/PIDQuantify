@@ -17,7 +17,7 @@ void QH2Perf::_project(){
 }
 
 void QH2Perf::_calculate_eff(){
-    // Calculate the efficiency histograms 
+    // Calculate the efficiency histograms
     TH1D *hist_eff_p   = dynamic_cast<TH1D*>(_passed_p  ->Clone("eff_p"  ));
     TH1D *hist_eff_eta = dynamic_cast<TH1D*>(_passed_eta->Clone("eff_eta"));
     hist_eff_p  ->Divide(_passed_p  , _total_p  , 1., 1., "B");
@@ -69,9 +69,9 @@ TGraphErrors *QH2Perf::eff_p()   const{return _eff_p;}
 TGraphErrors *QH2Perf::eff_eta() const{return _eff_eta;}
 
 QH2Perf::~QH2Perf(){
-    delete _total_p; 
-    delete _total_eta; 
-    delete _passed_p; 
+    delete _total_p;
+    delete _total_eta;
+    delete _passed_p;
     delete _passed_eta;
     delete _eff_p;
     delete _eff_eta;

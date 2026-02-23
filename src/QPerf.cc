@@ -198,7 +198,7 @@ QPerf::QPerf(const std::string &batch,
                                           directory);
 
     // Draw the histograms into the two canvases
-    std::string canvas_name =   batch 
+    std::string canvas_name =   batch
                               + "_" + polarity
                               + "_" + first_particle
                               + "_" + second_particle + "_";
@@ -209,10 +209,10 @@ QPerf::QPerf(const std::string &batch,
 void QPerf::export_canvases(const std::string &name){
     // Create names for the .C macros and .pdf files,
     // then subsequently save these using the SaveAs method
-    std::string p_name_C_macro   = "macro_" + name + "_p.C"    ; 
-    std::string eta_name_C_macro = "macro_" + name + "_eta.C"  ; 
-    std::string p_name_pdf       = "pdf_figure_" + name + "_p.pdf"  ; 
-    std::string eta_name_pdf     = "pdf_figure_" + name + "_eta.pdf"; 
+    std::string p_name_C_macro   = "macro_" + name + "_p.C"    ;
+    std::string eta_name_C_macro = "macro_" + name + "_eta.C"  ;
+    std::string p_name_pdf       = "pdf_figure_" + name + "_p.pdf"  ;
+    std::string eta_name_pdf     = "pdf_figure_" + name + "_eta.pdf";
     _canvas_p  ->SaveAs(p_name_C_macro  .c_str());
     _canvas_eta->SaveAs(eta_name_C_macro.c_str());
     _canvas_p  ->SaveAs(p_name_pdf      .c_str());

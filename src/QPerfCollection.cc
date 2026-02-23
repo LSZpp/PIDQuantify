@@ -3,7 +3,6 @@
 #include "TPad.h"
 #include "TLegend.h"
 #include "TGraphErrors.h"
-#include "TColor.h"
 #include "TAxis.h"
 #include "TLatex.h"
 
@@ -35,7 +34,9 @@ void QPerfCollection::add_perf(const std::string &batch,
 
 void QPerfCollection::create_figures(const std::string &canvas_name,
                                      const double min_efficiency_range,
-                                     const double max_efficiency_range){
+                                     const double max_efficiency_range,
+                                     const std::unordered_map<std::string, Color_t> *colour_map,
+                                     const std::unordered_map<std::string, Style_t> *style_map){
     // Declare canvases
     std::string canvas_name_p   = canvas_name + "_p"  ;
     std::string canvas_name_eta = canvas_name + "_eta";
@@ -73,10 +74,19 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
             gPad->SetTopMargin(.05);
             perf_figure->Draw(curve_count == 0 ? "AP" : "P SAME");
             perf_figure->SetLineWidth(2);
-            perf_figure->SetMarkerStyle(24);
+            Style_t style = ((style_map == nullptr) || 
+                             (style_map->find(perf_figures_iterator->first) == style_map->end()))
+                            ? 24
+                            : style_map->at(perf_figures_iterator->first);    // defined style of marker
+            perf_figure->SetMarkerStyle(style);
+            perf_figure->SetTitle("");
             perf_figure->SetMarkerSize(1.2);
-            perf_figure->SetMarkerColor(starting_colour + curve_count);
-            perf_figure->SetLineColor(starting_colour + curve_count);
+            Color_t colour = ((colour_map == nullptr) ||
+                              (colour_map->find(perf_figures_iterator->first) == colour_map->end()))
+                             ? starting_colour + curve_count
+                             : colour_map->at(perf_figures_iterator->first);    // defined colour of marker
+            perf_figure->SetMarkerColor(colour);
+            perf_figure->SetLineColor  (colour);
             perf_figure->SetTitle("");
             if (projection_direction == "p"  ) perf_figure->GetXaxis()->SetTitle("Momentum (MeV/#it{c})");
             if (projection_direction == "eta") perf_figure->GetXaxis()->SetTitle("Pseudorapidity"       );
