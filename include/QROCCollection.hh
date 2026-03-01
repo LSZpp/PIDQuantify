@@ -39,6 +39,11 @@ public:
                    const std::string &polarity, 
                    const std::string &name);    // function that adds a curve to the collection
 
+    void add_curve(const std::vector<std::string> &batches,
+                   const std::vector<std::string> &polarities, 
+                   const std::string &name);    // function that adds an curve with combined batches
+                                                // to the collection
+
     void create_figure(const std::string &canvas_name);
                             // function that creates a figure
 

@@ -30,8 +30,13 @@ public:
         const std::string &directory);
                      // constructor
 
-    double sum_total ();
-    double sum_passed();   // Integral() of the total and passed histograms across all phase space
+    double sum_total () const;
+    double sum_passed() const;   // Integral() of the total and passed histograms across all phase space
+
+    TH2D *get_total()  const;    // getter for the total histogram
+    TH2D *get_passed() const;    // getter for the passed histogram
+
+    void add(const QH2 &added_hist);  // addition of a second histogram
 
     virtual ~QH2();          // destructor
 };

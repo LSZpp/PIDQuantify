@@ -6,9 +6,9 @@
 #include <iostream>
 #include <sstream>
 
-std::string QProperty::_find_dataset() const{
+std::string QProperty::_find_dataset(const std::string &probe_particle) const{
     // Build a map for the batch to find the correct name for the efficiency histogram
-    const std::unordered_map<std::string, std::string> dataset_map = {
+    const std::unordered_map<std::string, std::string> dataset_map_proton = {
         {"24b7", "2024_WithUT_block7_v2"},
         {"24b8", "2024_WithUT_block8_v2"},
         {"25c1", "2025_c1_v0"},
@@ -23,10 +23,36 @@ std::string QProperty::_find_dataset() const{
         {"25c4_secondary", "2025_c4_secondary_v0"},
     };
 
+    const std::unordered_map<std::string, std::string> dataset_map_kaon_pion = {
+        {"24b7", "2024_WithUT_block7_v2"},
+        {"24b8", "2024_WithUT_block8_v2"},
+        {"25c1", "2025_c1_v0"},
+        {"25c2", "2025_c2_v0"},
+        {"25c3", "2025_c3_v0"},
+        {"25c4", "2025_c4_v0"},
+        {"24b7_secondary", "2024_WithUT_block7_v2"},
+        {"24b8_secondary", "2024_WithUT_block8_v2"},
+        {"25c1_secondary", "2025_c1_v0"},
+        {"25c2_secondary", "2025_c2_v0"},
+        {"25c3_secondary", "2025_c3_v0"},
+        {"25c4_secondary", "2025_c4_v0"},
+    };
+
     // Check if the batch in the QHistogramProperty is valid
-    std::unordered_map<std::string, std::string>::const_iterator
-            dataset_map_iterator = dataset_map.find(_batch);
-    if (dataset_map_iterator == dataset_map.end()){
+    const std::unordered_map<std::string, std::string> *dataset_map = nullptr;
+
+    if (probe_particle == "P"){
+        dataset_map = &dataset_map_proton;
+    } else if (probe_particle == "K" || probe_particle == "Pi"){
+        dataset_map = &dataset_map_kaon_pion;
+    } else{
+        throw std::runtime_error("Probe particle not within P, K, or Pi");
+    }
+
+    std::unordered_map<std::string, std::string>::const_iterator dataset_map_iterator;
+    dataset_map_iterator = dataset_map->find(_batch);
+
+    if (dataset_map_iterator == dataset_map->end()){
         this->print();
         throw std::runtime_error("Input batch is not found in the list of stored batches");
     } else{
@@ -107,11 +133,11 @@ void QProperty::print() const{
 }
 
 std::string QProperty::path() const{
-    // Find the dataset
-    std::string dataset = _find_dataset();
-
     // Find the probe particle
     std::string probe_particle = _find_probe_particle(); 
+
+    // Find the dataset
+    std::string dataset = _find_dataset(probe_particle);
 
     // Construct the cut string
     std::string cut_string = construct_cut_string();

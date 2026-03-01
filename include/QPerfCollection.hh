@@ -10,7 +10,10 @@
 #include "QH2Perf.hh" 
 
 #include "TCanvas.h"
+#include "TStyle.h"
+#include "TColor.h"
 
+#include <unordered_map>
 #include <map>
 #include <string> 
 
@@ -40,7 +43,9 @@ public:
 
     void create_figures(const std::string &canvas_name, 
                         const double min_efficiency_range =  .8,
-                        const double max_efficiency_range = 1.05);
+                        const double max_efficiency_range = 1.05,
+                        const std::unordered_map<std::string, Color_t> *colour_map = nullptr,
+                        const std::unordered_map<std::string, Style_t> *style_map  = nullptr);
                             // function that creates the figures for p and eta
 
     void export_canvases();

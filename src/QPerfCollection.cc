@@ -93,7 +93,7 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
             perf_figure->GetXaxis()->SetTitleSize  ( .044   );
             perf_figure->GetXaxis()->SetLabelSize  ( .044   );
             perf_figure->GetXaxis()->SetTitleOffset(1.      );
-            if (projection_direction == "p"  ) perf_figure->GetXaxis()->SetRangeUser(0, 100.e3);
+            if (projection_direction == "p"  ) perf_figure->GetXaxis()->SetRangeUser(15.e3, 110.e3);
             if (projection_direction == "eta") perf_figure->GetXaxis()->SetRangeUser(1.5, 5);
             perf_figure->GetYaxis()->SetTitle      (y_label.c_str());
             perf_figure->GetYaxis()->SetTitleSize  ( .044   );

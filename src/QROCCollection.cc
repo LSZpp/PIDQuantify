@@ -35,6 +35,20 @@ void QROCCollection::add_curve(const std::string &batch,
     _curves.insert({name, curve});
 }
 
+void QROCCollection::add_curve(const std::vector<std::string> &batches,
+                               const std::vector<std::string> &polarities, 
+                               const std::string &name){
+    QROCCurve *curve = new QROCCurve(batches,
+                                     polarities,
+                                     _first_particle,
+                                     _second_particle,
+                                     _loosest_cut,
+                                     _strictest_cut,
+                                     _cut_interval,
+                                     _directory);
+    _curves.insert({name, curve});
+}
+
 void QROCCollection::create_figure(const std::string &canvas_name){
     // Declare a canvas
     _canvas = new TCanvas(canvas_name.c_str(), canvas_name.c_str(), 800, 600);
@@ -76,7 +90,7 @@ void QROCCollection::create_figure(const std::string &canvas_name){
         curve->GetXaxis()->SetTitleSize  ( .044   );
         curve->GetXaxis()->SetLabelSize  ( .044   );
         curve->GetXaxis()->SetTitleOffset(1.      );
-        curve->GetXaxis()->SetRangeUser  (  .7, 1.); 
+        curve->GetXaxis()->SetRangeUser  (.7, 1.005);
         curve->GetYaxis()->SetTitle      (y_label.c_str());
         curve->GetYaxis()->SetTitleSize  ( .044   );
         curve->GetYaxis()->SetLabelSize  ( .044   );

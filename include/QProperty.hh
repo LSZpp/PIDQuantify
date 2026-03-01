@@ -29,7 +29,7 @@ private:
 
     const std::string _directory;           // the directory of the histogram
 
-    std::string _find_dataset() const;
+    std::string _find_dataset(const std::string &probe_particle) const;
                     // finds the dataset from the batch
 
     std::string _find_probe_particle() const;

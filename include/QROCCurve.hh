@@ -6,9 +6,13 @@
 
 // A class that creates and stores a single ROCcurve
 
+#include "QH2.hh"
+
 #include "TGraphErrors.h"
 
 #include <string>
+#include <vector>
+#include <utility>
 
 class QROCCurve{
 private:
@@ -20,8 +24,13 @@ private:
     const double _cut_interval;
 
     // particles within the ROC curve
-    const std::string first_particle; 
-    const std::string second_particle;
+    const std::string _first_particle; 
+    const std::string _second_particle;
+
+    // calculation of efficiencies
+    std::pair<double, double> _calculate_efficiency(const QH2 &hist);
+        // first  returned value is efficiency 
+        // second returned value is the binomial error on the efficiency
 
 public:
     QROCCurve(const std::string &batch,
@@ -33,6 +42,16 @@ public:
               const double       cut_interval,
               const std::string &directory);
                     // constructor
+
+    QROCCurve(const std::vector<std::string> &batches,
+              const std::vector<std::string> &polarities,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const double       loosest_cut,
+              const double       strictest_cut,
+              const double       cut_interval,
+              const std::string &directory);
+                    // constructor overload: create a ROC curve built from vector of different batches
 
     TGraphErrors *get_curve() const;
 

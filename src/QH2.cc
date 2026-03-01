@@ -42,8 +42,19 @@ QH2::QH2(const std::string &batch,
     delete file;
 }
 
-double QH2::sum_total (){return _total->Integral(); }
-double QH2::sum_passed(){return _passed->Integral();}
+double QH2::sum_total () const{return _total->Integral(); }
+double QH2::sum_passed() const{return _passed->Integral();}
+
+TH2D *QH2::get_total()  const{return _total; }
+TH2D *QH2::get_passed() const{return _passed;}
+
+void QH2::add(const QH2& added_hist){
+    _total ->Add(added_hist.get_total() );
+    _passed->Add(added_hist.get_passed());
+    delete _property;
+    _property = nullptr;
+    _path.clear();
+}
 
 QH2::~QH2(){
     delete _total;

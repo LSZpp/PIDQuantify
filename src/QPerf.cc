@@ -54,7 +54,7 @@ TCanvas *QPerf::_create_figure(const std::string &canvas_name,
         graph->GetXaxis()->SetTitleSize  ( .044   );
         graph->GetXaxis()->SetLabelSize  ( .044   );
         graph->GetXaxis()->SetTitleOffset(1.      );
-        if (projection_direction == "p"  ) graph->GetXaxis()->SetRangeUser(0, 100.e3); 
+        if (projection_direction == "p"  ) graph->GetXaxis()->SetRangeUser(15.e3, 110.e3); 
         if (projection_direction == "eta") graph->GetXaxis()->SetRangeUser(1.5, 5); 
         graph->GetYaxis()->SetTitle      ("Efficiency");
         graph->GetYaxis()->SetTitleSize  ( .044   );
