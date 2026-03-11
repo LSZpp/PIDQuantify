@@ -65,6 +65,40 @@ QH2Perf::QH2Perf(const std::string &batch,
     _calculate_eff();
 }
 
+QH2Perf::QH2Perf(const std::vector<std::string> &batches,
+                 const std::vector<std::string> &polarities,
+                 const std::string &first_particle,
+                 const std::string &second_particle,
+                 const std::string &identification_type,
+                 const double       cut_value,
+                 const std::string &directory)
+                :QH2(batches[0],
+                     polarities[0],
+                     first_particle,
+                     second_particle,
+                     identification_type,
+                     cut_value,
+                     directory){
+    // Check that the batch vector and polarity vector has no size mismatches
+    if (batches.size() != polarities.size())
+        throw std::runtime_error("Batch vector and polarity vector mismatch");
+    // Add the remaining batches to the base QH2 histogram
+    for (size_t vector_index = 1; vector_index < batches.size(); vector_index++){
+        QH2 *temp_hist = new QH2(batches[vector_index],
+                                 polarities[vector_index],
+                                 first_particle,
+                                 second_particle,
+                                 identification_type,
+                                 cut_value,
+                                 directory);
+        add(*temp_hist);
+        delete temp_hist;
+    }
+    // Project and calculate efficiencies from the combined histogram
+    _project();
+    _calculate_eff();
+}
+
 TGraphErrors *QH2Perf::eff_p()   const{return _eff_p;}
 TGraphErrors *QH2Perf::eff_eta() const{return _eff_eta;}
 

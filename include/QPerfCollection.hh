@@ -37,9 +37,15 @@ public:
                                                  // constructor
 
     void add_perf(const std::string &batch,
-                  const std::string &polarity, 
+                  const std::string &polarity,
                   const std::string &name,
                   const std::string &directory); // function that adds a performance fig. to the collection
+
+    void add_perf(const std::vector<std::string> &batches,
+                  const std::vector<std::string> &polarities,
+                  const std::string &name,
+                  const std::string &directory); // function that adds a performance fig. with combined batches
+                                                 // to the collection
 
     void create_figures(const std::string &canvas_name, 
                         const double min_efficiency_range =  .8,

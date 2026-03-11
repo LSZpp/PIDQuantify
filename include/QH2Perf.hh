@@ -13,6 +13,8 @@
 #include "TH1D.h"
 #include "TGraphErrors.h"
 
+#include <vector>
+
 class QH2Perf : public QH2{
 private:
     // total and passed histograms with p or eta as the vertical and horizontal axes
@@ -36,7 +38,16 @@ public:
             const std::string &identification_type,
             const double       cut_value,
             const std::string &directory);
-            //constructor
+            // constructor
+
+    QH2Perf(const std::vector<std::string> &batches,
+            const std::vector<std::string> &polarities,
+            const std::string &first_particle,
+            const std::string &second_particle,
+            const std::string &identification_type,
+            const double       cut_value,
+            const std::string &directory);
+            // constructor for combined batches
     
     // getters for the efficiencies
     TGraphErrors *eff_p()   const;

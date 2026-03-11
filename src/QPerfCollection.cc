@@ -32,6 +32,20 @@ void QPerfCollection::add_perf(const std::string &batch,
     _perf_figures.insert({name, perf_figure});
 }
 
+void QPerfCollection::add_perf(const std::vector<std::string> &batches,
+                               const std::vector<std::string> &polarities,
+                               const std::string &name,
+                               const std::string &directory){
+    QH2Perf *perf_figure = new QH2Perf(batches,
+                                       polarities,
+                                       _first_particle,
+                                       _second_particle,
+                                       "ID",
+                                       _cut,
+                                       directory);
+    _perf_figures.insert({name, perf_figure});
+}
+
 void QPerfCollection::create_figures(const std::string &canvas_name,
                                      const double min_efficiency_range,
                                      const double max_efficiency_range,
