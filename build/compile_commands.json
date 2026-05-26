@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QH2.cc.o -c /home/lins/u3_PIDQuantify/src/QH2.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QH2.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QH2.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o -c /home/lins/u3_PIDQuantify/src/QH2Perf.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QH2Perf.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o -c /home/lins/u3_PIDQuantify/src/QPerf.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QPerf.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o -c /home/lins/u3_PIDQuantify/src/QPerfCollection.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QPerfCollection.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o -c /home/lins/u3_PIDQuantify/src/QPerfCombo.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QPerfCombo.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o -c /home/lins/u3_PIDQuantify/src/QProperty.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QProperty.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o -c /home/lins/u3_PIDQuantify/src/QROCCollection.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QROCCollection.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o"
+},
+{
+  "directory": "/home/lins/u3_PIDQuantify/build",
+  "command": "/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD -I/home/lins/u3_PIDQuantify/include   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3 -o CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o -c /home/lins/u3_PIDQuantify/src/QROCCurve.cc",
+  "file": "/home/lins/u3_PIDQuantify/src/QROCCurve.cc",
+  "output": "CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o"
+}
+]

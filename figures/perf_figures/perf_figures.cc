@@ -8,9 +8,9 @@
 #include "QPerfCombo.hh"
 
 int main(){
-    QPerfCombo *perf_combo = new QPerfCombo("25c1",
-                                            "up",
-                                            "/data/lhcb/users/lins/u1_PID_L0/26Feb/p/");
+    QPerfCombo *perf_combo = new QPerfCombo("25c2",
+                                            "down",
+                                            "/data/lhcb/users/lins/u1_PID_L0/26Feb/P/");
     perf_combo->export_canvases();
     delete perf_combo;
 

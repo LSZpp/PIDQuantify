@@ -1,0 +1,10 @@
+/data/lhcb/users/lins/u3_PIDQuantify/lib64/libPIDQuantify.so
+/data/lhcb/users/lins/u3_PIDQuantify/include/QPerfCombo.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QH2Perf.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QROCCurve.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QROCCollection.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QPerf.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QProperty.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QH2.hh
+/data/lhcb/users/lins/u3_PIDQuantify/include/QPerfCollection.hh
+/data/lhcb/users/lins/u3_PIDQuantify/bin/PIDQuantify-config

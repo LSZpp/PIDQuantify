@@ -9,12 +9,14 @@
 std::string QProperty::_find_dataset(const std::string &probe_particle) const{
     // Build a map for the batch to find the correct name for the efficiency histogram
     const std::unordered_map<std::string, std::string> dataset_map_proton = {
-        {"24b7", "2024_WithUT_block7_v2"},
-        {"24b8", "2024_WithUT_block8_v2"},
-        {"25c1", "2025_c1_v0"},
-        {"25c2", "2025_c2_v0"},
-        {"25c3", "2025_c3_v0"},
-        {"25c4", "2025_c4_v0"},
+        {"24b7",    "2024_WithUT_block7_v2"   },
+        {"24b8",    "2024_WithUT_block8_v2"   },
+        {"24c1ref", "2024_WithUT_c1_sppref_v0"},
+        {"25c1",    "2025_c1_v0"              },
+        {"25c2",    "2025_c2_v0"              },
+        {"25c3",    "2025_c3_v0"              },
+        {"25c4",    "2025_c4_v0"              },
+        {"26c1",    "2026_c1_v0"              },
         {"24b7_secondary", "24b7d_o"},
         {"24b8_secondary", "24b8u_o"},
         {"25c1_secondary", "2025_c1_secondary_v0"},
@@ -24,12 +26,14 @@ std::string QProperty::_find_dataset(const std::string &probe_particle) const{
     };
 
     const std::unordered_map<std::string, std::string> dataset_map_kaon_pion = {
-        {"24b7", "2024_WithUT_block7_v2"},
-        {"24b8", "2024_WithUT_block8_v2"},
-        {"25c1", "2025_c1_v0"},
-        {"25c2", "2025_c2_v0"},
-        {"25c3", "2025_c3_v0"},
-        {"25c4", "2025_c4_v0"},
+        {"24b7",    "2024_WithUT_block7_v2"   },
+        {"24b8",    "2024_WithUT_block8_v2"   },
+        {"24c1ref", "2024_WithUT_c1_sppref_v0"},
+        {"25c1",    "2025_c1_v0"              },
+        {"25c2",    "2025_c2_v0"              },
+        {"25c3",    "2025_c3_v0"              },
+        {"25c4",    "2025_c4_v0"              },
+        {"26c1",    "2026_c1_v0"              },
         {"24b7_secondary", "2024_WithUT_block7_v2"},
         {"24b8_secondary", "2024_WithUT_block8_v2"},
         {"25c1_secondary", "2025_c1_v0"},

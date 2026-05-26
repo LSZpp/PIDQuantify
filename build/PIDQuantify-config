@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+# PIDQuantify-config.in for PIDQuantify
+# LSZ 15 Feb 26
+
+
+# this script allows any executables that uses PIDQuantify to be compiled with `PIDQuantify-config`
+prefix="/data/lhcb/users/lins/u3_PIDQuantify"
+libdir="lib64"
+echo "-I${prefix}/include -L${prefix}/${libdir} -lPIDQuantify -Wl,-rpath,${prefix}/${libdir}"
