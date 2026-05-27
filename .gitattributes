@@ -1,0 +1,2 @@
+# Treat ROOT macro files as C++ in GitHub Linguist.
+*.C linguist-language=C++
