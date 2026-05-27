@@ -6,5 +6,5 @@ CXX_DEFINES = -DPIDQuantify_EXPORTS -DROOT_SUPPORT_CLAD
 
 CXX_INCLUDES = -I/home/lins/u3_PIDQuantify/include
 
-CXX_FLAGS =   -pipe -fsigned-char -pthread -std=gnu++20 -fPIC -O3
+CXX_FLAGS =   -pipe -fsigned-char -pthread -O3 -DNDEBUG -std=gnu++20 -fPIC -O3
 

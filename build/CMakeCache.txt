@@ -22,7 +22,7 @@ CMAKE_AR:FILEPATH=/cvmfs/sft.cern.ch/lcg/releases/binutils/2.40-acaab/x86_64-el9
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
