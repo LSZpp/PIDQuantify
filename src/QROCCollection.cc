@@ -80,7 +80,7 @@ void QROCCollection::create_figure(const std::string &canvas_name){
          curves_iterator != _curves.end(); 
          curves_iterator++){
         TGraphErrors *curve = curves_iterator->second->get_curve();
-        curve->Draw(curve_count == 0 ? "ALP" : "LP SAME");
+        curve->Draw(curve_count == 0 ? "ALP E" : "LP E SAME");
         curve->SetMarkerStyle(21);
         curve->SetMarkerSize(.6);
         curve->SetMarkerColor(starting_colour + curve_count);
