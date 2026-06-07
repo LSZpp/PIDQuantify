@@ -10,9 +10,11 @@
 #include "QROCCurve.hh"
 
 #include "TCanvas.h"
+#include "TColor.h"
 
 #include <map>
 #include <string>
+#include <unordered_map>
 
 class QROCCollection{
 private:
@@ -44,7 +46,8 @@ public:
                    const std::string &name);    // function that adds an curve with combined batches
                                                 // to the collection
 
-    void create_figure(const std::string &canvas_name);
+    void create_figure(const std::string &canvas_name,
+                       const std::unordered_map<std::string, Color_t> *colour_map = nullptr);
                             // function that creates a figure
 
     void export_canvas();   // function that exports the figure canvas

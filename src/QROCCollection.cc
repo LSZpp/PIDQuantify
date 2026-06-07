@@ -7,6 +7,8 @@
 #include "TAxis.h"
 #include "TLatex.h"
 
+#include <unordered_map>
+
 QROCCollection::QROCCollection(const std::string &first_particle,
                                const std::string &second_particle,
                                const double       loosest_cut,
@@ -49,7 +51,8 @@ void QROCCollection::add_curve(const std::vector<std::string> &batches,
     _curves.insert({name, curve});
 }
 
-void QROCCollection::create_figure(const std::string &canvas_name){
+void QROCCollection::create_figure(const std::string &canvas_name,
+                                   const std::unordered_map<std::string, Color_t> *colour_map){
     // Declare a canvas
     _canvas = new TCanvas(canvas_name.c_str(), canvas_name.c_str(), 800, 600);
     _canvas->cd();
@@ -81,10 +84,14 @@ void QROCCollection::create_figure(const std::string &canvas_name){
          curves_iterator++){
         TGraphErrors *curve = curves_iterator->second->get_curve();
         curve->Draw(curve_count == 0 ? "ALP E" : "LP E SAME");
+        Color_t colour = ((colour_map == nullptr) ||
+                          (colour_map->find(curves_iterator->first) == colour_map->end()))
+                         ? starting_colour + curve_count
+                         : colour_map->at(curves_iterator->first);
         curve->SetMarkerStyle(21);
         curve->SetMarkerSize(.6);
-        curve->SetMarkerColor(starting_colour + curve_count);
-        curve->SetLineColor(starting_colour + curve_count);
+        curve->SetMarkerColor(colour);
+        curve->SetLineColor(colour);
         curve->SetTitle("");
         curve->GetXaxis()->SetTitle      (x_label.c_str());
         curve->GetXaxis()->SetTitleSize  ( .044   );
