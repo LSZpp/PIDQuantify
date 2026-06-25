@@ -7,7 +7,23 @@
 #include "TAxis.h"
 #include "TLatex.h"
 
+#include <stdexcept>
 #include <unordered_map>
+
+QROCCollection::QROCCollection(const std::string &first_particle,
+                               const std::string &second_particle,
+                               const double       loosest_cut,
+                               const double       strictest_cut,
+                               const double       cut_interval)
+                              :_first_particle (first_particle),
+                               _second_particle(second_particle),
+                               _loosest_cut    (loosest_cut),
+                               _strictest_cut  (strictest_cut),
+                               _cut_interval   (cut_interval),
+                               _id_source      (),
+                               _misid_source   (),
+                               _has_default_source(false){
+}
 
 QROCCollection::QROCCollection(const std::string &first_particle,
                                const std::string &second_particle,
@@ -15,17 +31,75 @@ QROCCollection::QROCCollection(const std::string &first_particle,
                                const double       strictest_cut,
                                const double       cut_interval,
                                const std::string &directory)
+                              :QROCCollection(first_particle,
+                                              second_particle,
+                                              loosest_cut,
+                                              strictest_cut,
+                                              cut_interval,
+                                              QHistogramSource::legacy(directory)){
+}
+
+QROCCollection::QROCCollection(const std::string &first_particle,
+                               const std::string &second_particle,
+                               const double       loosest_cut,
+                               const double       strictest_cut,
+                               const double       cut_interval,
+                               const QHistogramSource &source)
+                              :QROCCollection(first_particle,
+                                              second_particle,
+                                              loosest_cut,
+                                              strictest_cut,
+                                              cut_interval,
+                                              source,
+                                              source){
+}
+
+QROCCollection::QROCCollection(const std::string &first_particle,
+                               const std::string &second_particle,
+                               const double       loosest_cut,
+                               const double       strictest_cut,
+                               const double       cut_interval,
+                               const QHistogramSource &id_source,
+                               const QHistogramSource &misid_source)
                               :_first_particle (first_particle),
                                _second_particle(second_particle),
                                _loosest_cut    (loosest_cut),
                                _strictest_cut  (strictest_cut),
                                _cut_interval   (cut_interval),
-                               _directory      (directory){
+                               _id_source      (id_source),
+                               _misid_source   (misid_source),
+                               _has_default_source(true){
 }
 
 void QROCCollection::add_curve(const std::string &batch, 
                                const std::string &polarity, 
                                const std::string &name){
+    if (!_has_default_source){
+        throw std::runtime_error("QROCCollection has no default source; use an add_curve overload with source arguments");
+    }
+    add_curve(batch,
+              polarity,
+              name,
+              _id_source,
+              _misid_source);
+}
+
+void QROCCollection::add_curve(const std::string &batch,
+                               const std::string &polarity,
+                               const std::string &name,
+                               const QHistogramSource &source){
+    add_curve(batch,
+              polarity,
+              name,
+              source,
+              source);
+}
+
+void QROCCollection::add_curve(const std::string &batch,
+                               const std::string &polarity,
+                               const std::string &name,
+                               const QHistogramSource &id_source,
+                               const QHistogramSource &misid_source){
     QROCCurve *curve = new QROCCurve(batch,
                                      polarity,
                                      _first_particle,
@@ -33,13 +107,40 @@ void QROCCollection::add_curve(const std::string &batch,
                                      _loosest_cut,
                                      _strictest_cut,
                                      _cut_interval,
-                                     _directory);
+                                     id_source,
+                                     misid_source);
     _curves.insert({name, curve});
 }
 
 void QROCCollection::add_curve(const std::vector<std::string> &batches,
                                const std::vector<std::string> &polarities, 
                                const std::string &name){
+    if (!_has_default_source){
+        throw std::runtime_error("QROCCollection has no default source; use an add_curve overload with source arguments");
+    }
+    add_curve(batches,
+              polarities,
+              name,
+              _id_source,
+              _misid_source);
+}
+
+void QROCCollection::add_curve(const std::vector<std::string> &batches,
+                               const std::vector<std::string> &polarities,
+                               const std::string &name,
+                               const QHistogramSource &source){
+    add_curve(batches,
+              polarities,
+              name,
+              source,
+              source);
+}
+
+void QROCCollection::add_curve(const std::vector<std::string> &batches,
+                               const std::vector<std::string> &polarities,
+                               const std::string &name,
+                               const QHistogramSource &id_source,
+                               const QHistogramSource &misid_source){
     QROCCurve *curve = new QROCCurve(batches,
                                      polarities,
                                      _first_particle,
@@ -47,7 +148,8 @@ void QROCCollection::add_curve(const std::vector<std::string> &batches,
                                      _loosest_cut,
                                      _strictest_cut,
                                      _cut_interval,
-                                     _directory);
+                                     id_source,
+                                     misid_source);
     _curves.insert({name, curve});
 }
 

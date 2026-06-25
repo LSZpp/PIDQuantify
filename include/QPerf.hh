@@ -8,6 +8,7 @@
 // A class that contains everything that is needed for a performance histogram
 
 #include "QH2Perf.hh"
+#include "QHistogramSource.hh"
 
 #include "TCanvas.h"
 
@@ -25,6 +26,7 @@ private:
     const std::string _first_particle;      // the particle demonstrated by the performance figure
     const std::string _second_particle;     // the secondary particle used to construct the cut
     const std::string _directory;           // the directory of the efficiency histograms
+    const QHistogramSource _source;         // source resolver for the efficiency histograms
     const double      _cut_value_loose;     // the cut value for the loose cut
     const double      _cut_value_strict;    // the cut value for the strict cut
     
@@ -43,6 +45,15 @@ public:
           const double       cut_value_loose  = 0.,
           const double       cut_value_strict = 5.);
           // constructor
+
+    QPerf(const std::string &batch,
+          const std::string &polarity,
+          const std::string &first_particle,
+          const std::string &second_particle,
+          const QHistogramSource &source,
+          const double       cut_value_loose  = 0.,
+          const double       cut_value_strict = 5.);
+          // constructor overload with a histogram source resolver
 
     void export_canvases(const std::string &name);
                 // exports the canvases to .C macros and .pdf files

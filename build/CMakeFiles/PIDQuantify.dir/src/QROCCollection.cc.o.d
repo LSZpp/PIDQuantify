@@ -5,6 +5,7 @@ CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o: \
  /home/lins/u3_PIDQuantify/include/QROCCurve.hh \
  /home/lins/u3_PIDQuantify/include/QH2.hh \
  /home/lins/u3_PIDQuantify/include/QProperty.hh \
+ /home/lins/u3_PIDQuantify/include/QHistogramSource.hh \
  /cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/include/c++/13.1.0/string \
  /cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/include/c++/13.1.0/bits/requires_hosted.h \
  /cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/include/c++/13.1.0/x86_64-pc-linux-gnu/bits/c++config.h \

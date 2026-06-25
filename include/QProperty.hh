@@ -7,6 +7,8 @@
 
 // A class storing the property of a particular efficiency histogram
 
+#include "QHistogramSource.hh"
+
 #include <string>
 
 class QProperty{
@@ -27,10 +29,7 @@ private:
         
     const double _cut_value;                // the numerical value of the cut
 
-    const std::string _directory;           // the directory of the histogram
-
-    std::string _find_dataset(const std::string &probe_particle) const;
-                    // finds the dataset from the batch
+    const QHistogramSource _source;         // the source of the histogram files
 
     std::string _find_probe_particle() const;
                     // finds the probe particle
@@ -47,6 +46,15 @@ public:
               const double       cut_value,
               const std::string &directory);
                     // constructor
+
+    QProperty(const std::string &batch,
+              const std::string &polarity,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const std::string &identification_type,
+              const double       cut_value,
+              const QHistogramSource &source);
+                    // constructor overload with a histogram source resolver
 
     void print() const;
                     // prints the contents of the property

@@ -9,6 +9,7 @@
 // This object is exactly what is needed for performance histograms
 
 #include "QH2.hh"
+#include "QHistogramSource.hh"
 
 #include "TH1D.h"
 #include "TGraphErrors.h"
@@ -40,6 +41,15 @@ public:
             const std::string &directory);
             // constructor
 
+    QH2Perf(const std::string &batch,
+            const std::string &polarity,
+            const std::string &first_particle,
+            const std::string &second_particle,
+            const std::string &identification_type,
+            const double       cut_value,
+            const QHistogramSource &source);
+            // constructor overload with a histogram source resolver
+
     QH2Perf(const std::vector<std::string> &batches,
             const std::vector<std::string> &polarities,
             const std::string &first_particle,
@@ -48,6 +58,15 @@ public:
             const double       cut_value,
             const std::string &directory);
             // constructor for combined batches
+
+    QH2Perf(const std::vector<std::string> &batches,
+            const std::vector<std::string> &polarities,
+            const std::string &first_particle,
+            const std::string &second_particle,
+            const std::string &identification_type,
+            const double       cut_value,
+            const QHistogramSource &source);
+            // constructor overload for combined batches with a histogram source resolver
     
     // getters for the efficiencies
     TGraphErrors *eff_p()   const;

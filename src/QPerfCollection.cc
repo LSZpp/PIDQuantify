@@ -22,13 +22,23 @@ void QPerfCollection::add_perf(const std::string &batch,
                                const std::string &polarity, 
                                const std::string &name,
                                const std::string &directory){
+    add_perf(batch,
+             polarity,
+             name,
+             QHistogramSource::legacy(directory));
+}
+
+void QPerfCollection::add_perf(const std::string &batch,
+                               const std::string &polarity,
+                               const std::string &name,
+                               const QHistogramSource &source){
     QH2Perf *perf_figure = new QH2Perf(batch,
                                        polarity,
                                        _first_particle,
                                        _second_particle,
                                        "ID",
                                        _cut,
-                                       directory);
+                                       source);
     _perf_figures.insert({name, perf_figure});
 }
 
@@ -36,13 +46,23 @@ void QPerfCollection::add_perf(const std::vector<std::string> &batches,
                                const std::vector<std::string> &polarities,
                                const std::string &name,
                                const std::string &directory){
+    add_perf(batches,
+             polarities,
+             name,
+             QHistogramSource::legacy(directory));
+}
+
+void QPerfCollection::add_perf(const std::vector<std::string> &batches,
+                               const std::vector<std::string> &polarities,
+                               const std::string &name,
+                               const QHistogramSource &source){
     QH2Perf *perf_figure = new QH2Perf(batches,
                                        polarities,
                                        _first_particle,
                                        _second_particle,
                                        "ID",
                                        _cut,
-                                       directory);
+                                       source);
     _perf_figures.insert({name, perf_figure});
 }
 

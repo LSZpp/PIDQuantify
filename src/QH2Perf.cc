@@ -53,13 +53,29 @@ QH2Perf::QH2Perf(const std::string &batch,
                  const std::string &identification_type,
                  const double       cut_value,
                  const std::string &directory)
+                :QH2Perf(batch,
+                         polarity,
+                         first_particle,
+                         second_particle,
+                         identification_type,
+                         cut_value,
+                         QHistogramSource::legacy(directory)){
+}
+
+QH2Perf::QH2Perf(const std::string &batch,
+                 const std::string &polarity,
+                 const std::string &first_particle,
+                 const std::string &second_particle,
+                 const std::string &identification_type,
+                 const double       cut_value,
+                 const QHistogramSource &source)
                 :QH2(batch,
                      polarity,
                      first_particle,
                      second_particle,
                      identification_type,
                      cut_value,
-                     directory){
+                     source){
     // Create the 1-dimensional projected histograms and corresponding efficiencies
     _project();
     _calculate_eff();
@@ -72,13 +88,29 @@ QH2Perf::QH2Perf(const std::vector<std::string> &batches,
                  const std::string &identification_type,
                  const double       cut_value,
                  const std::string &directory)
+                :QH2Perf(batches,
+                         polarities,
+                         first_particle,
+                         second_particle,
+                         identification_type,
+                         cut_value,
+                         QHistogramSource::legacy(directory)){
+}
+
+QH2Perf::QH2Perf(const std::vector<std::string> &batches,
+                 const std::vector<std::string> &polarities,
+                 const std::string &first_particle,
+                 const std::string &second_particle,
+                 const std::string &identification_type,
+                 const double       cut_value,
+                 const QHistogramSource &source)
                 :QH2(batches[0],
                      polarities[0],
                      first_particle,
                      second_particle,
                      identification_type,
                      cut_value,
-                     directory){
+                     source){
     // Check that the batch vector and polarity vector has no size mismatches
     if (batches.size() != polarities.size())
         throw std::runtime_error("Batch vector and polarity vector mismatch");
@@ -90,7 +122,7 @@ QH2Perf::QH2Perf(const std::vector<std::string> &batches,
                                  second_particle,
                                  identification_type,
                                  cut_value,
-                                 directory);
+                                 source);
         add(*temp_hist);
         delete temp_hist;
     }

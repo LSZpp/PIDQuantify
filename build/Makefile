@@ -158,6 +158,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/lins/u3_PIDQuantify/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
@@ -221,6 +222,30 @@ src/QH2Perf.s: src/QH2Perf.cc.s
 src/QH2Perf.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.s
 .PHONY : src/QH2Perf.cc.s
+
+src/QHistogramSource.o: src/QHistogramSource.cc.o
+.PHONY : src/QHistogramSource.o
+
+# target to build an object file
+src/QHistogramSource.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o
+.PHONY : src/QHistogramSource.cc.o
+
+src/QHistogramSource.i: src/QHistogramSource.cc.i
+.PHONY : src/QHistogramSource.i
+
+# target to preprocess a source file
+src/QHistogramSource.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.i
+.PHONY : src/QHistogramSource.cc.i
+
+src/QHistogramSource.s: src/QHistogramSource.cc.s
+.PHONY : src/QHistogramSource.s
+
+# target to generate assembly for a file
+src/QHistogramSource.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.s
+.PHONY : src/QHistogramSource.cc.s
 
 src/QPerf.o: src/QPerf.cc.o
 .PHONY : src/QPerf.o
@@ -385,6 +410,9 @@ help:
 	@echo "... src/QH2Perf.o"
 	@echo "... src/QH2Perf.i"
 	@echo "... src/QH2Perf.s"
+	@echo "... src/QHistogramSource.o"
+	@echo "... src/QHistogramSource.i"
+	@echo "... src/QHistogramSource.s"
 	@echo "... src/QPerf.o"
 	@echo "... src/QPerf.i"
 	@echo "... src/QPerf.s"
@@ -414,6 +442,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/lins/u3_PIDQuantify/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

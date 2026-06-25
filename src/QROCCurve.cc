@@ -2,6 +2,7 @@
 #include "QH2.hh"
 
 #include <cmath>
+#include <stdexcept>
 
 std::pair<double, double> QROCCurve::_calculate_efficiency(const QH2 &hist){
     double total  = hist.sum_total();
@@ -20,6 +21,45 @@ QROCCurve::QROCCurve(const std::string &batch,
                      const double       strictest_cut,
                      const double       cut_interval,
                      const std::string &directory)
+                    :QROCCurve(batch,
+                               polarity,
+                               first_particle,
+                               second_particle,
+                               loosest_cut,
+                               strictest_cut,
+                               cut_interval,
+                               QHistogramSource::legacy(directory),
+                               QHistogramSource::legacy(directory)){
+}
+
+QROCCurve::QROCCurve(const std::string &batch,
+                     const std::string &polarity,
+                     const std::string &first_particle,
+                     const std::string &second_particle,
+                     const double       loosest_cut,
+                     const double       strictest_cut,
+                     const double       cut_interval,
+                     const QHistogramSource &source)
+                    :QROCCurve(batch,
+                               polarity,
+                               first_particle,
+                               second_particle,
+                               loosest_cut,
+                               strictest_cut,
+                               cut_interval,
+                               source,
+                               source){
+}
+
+QROCCurve::QROCCurve(const std::string &batch,
+                     const std::string &polarity,
+                     const std::string &first_particle,
+                     const std::string &second_particle,
+                     const double       loosest_cut,
+                     const double       strictest_cut,
+                     const double       cut_interval,
+                     const QHistogramSource &id_source,
+                     const QHistogramSource &misid_source)
                     :_first_particle (first_particle),
                      _second_particle(second_particle),
                      _loosest_cut  (loosest_cut),
@@ -30,14 +70,19 @@ QROCCurve::QROCCurve(const std::string &batch,
 
     // Use the QH2 class to automatically create all the points on the curve
     unsigned short cut_count = 0;
-    for (double cut = loosest_cut; cut <= strictest_cut; cut += cut_interval){
+    // Iterate by integer index so a non-binary-exact step (e.g. 0.05) does not
+    // drift and both endpoints are hit deterministically. n_points matches the
+    // job-side grid count exactly (e.g. ProbNN -15..0/0.05 -> 301 points).
+    const int n_points = static_cast<int>(std::lround((strictest_cut - loosest_cut) / cut_interval));
+    for (int point_index = 0; point_index <= n_points; ++point_index){
+        const double cut = loosest_cut + point_index * cut_interval;
         QH2 *ID_point_hist = new QH2(batch,
                                      polarity, 
                                      first_particle, 
                                      second_particle,
                                      "ID",
                                      cut,
-                                     directory);
+                                     id_source);
         std::pair<double, double> ID_efficiency = _calculate_efficiency(*ID_point_hist);
         delete ID_point_hist;
 
@@ -47,7 +92,7 @@ QROCCurve::QROCCurve(const std::string &batch,
                                         second_particle,
                                         "misID",
                                         cut,
-                                        directory);
+                                        misid_source);
         std::pair<double, double> misID_efficiency = _calculate_efficiency(*misID_point_hist);
         delete misID_point_hist;
 
@@ -66,6 +111,45 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
                      const double       strictest_cut,
                      const double       cut_interval,
                      const std::string &directory)
+                    :QROCCurve(batches,
+                               polarities,
+                               first_particle,
+                               second_particle,
+                               loosest_cut,
+                               strictest_cut,
+                               cut_interval,
+                               QHistogramSource::legacy(directory),
+                               QHistogramSource::legacy(directory)){
+}
+
+QROCCurve::QROCCurve(const std::vector<std::string> &batches,
+                     const std::vector<std::string> &polarities,
+                     const std::string &first_particle,
+                     const std::string &second_particle,
+                     const double       loosest_cut,
+                     const double       strictest_cut,
+                     const double       cut_interval,
+                     const QHistogramSource &source)
+                    :QROCCurve(batches,
+                               polarities,
+                               first_particle,
+                               second_particle,
+                               loosest_cut,
+                               strictest_cut,
+                               cut_interval,
+                               source,
+                               source){
+}
+
+QROCCurve::QROCCurve(const std::vector<std::string> &batches,
+                     const std::vector<std::string> &polarities,
+                     const std::string &first_particle,
+                     const std::string &second_particle,
+                     const double       loosest_cut,
+                     const double       strictest_cut,
+                     const double       cut_interval,
+                     const QHistogramSource &id_source,
+                     const QHistogramSource &misid_source)
                     :_first_particle (first_particle),
                      _second_particle(second_particle),
                      _loosest_cut  (loosest_cut),
@@ -80,7 +164,12 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
 
     // Use the QH2 class to automatically create all the points on the curve
     unsigned short cut_count = 0;
-    for (double cut = loosest_cut; cut <= strictest_cut; cut += cut_interval){
+    // Iterate by integer index so a non-binary-exact step (e.g. 0.05) does not
+    // drift and both endpoints are hit deterministically. n_points matches the
+    // job-side grid count exactly (e.g. ProbNN -15..0/0.05 -> 301 points).
+    const int n_points = static_cast<int>(std::lround((strictest_cut - loosest_cut) / cut_interval));
+    for (int point_index = 0; point_index <= n_points; ++point_index){
+        const double cut = loosest_cut + point_index * cut_interval;
         auto build_histogram = [&](QH2 &point_hist, const std::string &identification_type){
             for (size_t vector_index = 1; vector_index < batches.size(); vector_index++){
                 QH2 *temp_hist = new QH2(batches[vector_index],
@@ -89,7 +178,7 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
                                          second_particle,
                                          identification_type, 
                                          cut,
-                                         directory);
+                                         identification_type == "ID" ? id_source : misid_source);
                 point_hist.add(*temp_hist);
                 delete temp_hist;
             }
@@ -102,7 +191,7 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
                                      second_particle,
                                      "ID",
                                      cut,
-                                     directory);
+                                     id_source);
         build_histogram(*ID_point_hist, "ID");
         std::pair<double, double> ID_efficiency = _calculate_efficiency(*ID_point_hist);
         delete ID_point_hist;
@@ -113,7 +202,7 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
                                         second_particle,
                                         "misID",
                                         cut,
-                                        directory);
+                                        misid_source);
         build_histogram(*misID_point_hist, "misID");
         std::pair<double, double> misID_efficiency = _calculate_efficiency(*misID_point_hist);
         delete misID_point_hist;

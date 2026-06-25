@@ -97,10 +97,24 @@ CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.s"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lins/u3_PIDQuantify/src/QH2Perf.cc -o CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.s
 
+CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
+CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o: /home/lins/u3_PIDQuantify/src/QHistogramSource.cc
+CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o"
+	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o -c /home/lins/u3_PIDQuantify/src/QHistogramSource.cc
+
+CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.i"
+	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lins/u3_PIDQuantify/src/QHistogramSource.cc > CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.i
+
+CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.s"
+	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lins/u3_PIDQuantify/src/QHistogramSource.cc -o CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.s
+
 CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o: /home/lins/u3_PIDQuantify/src/QPerf.cc
 CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o -c /home/lins/u3_PIDQuantify/src/QPerf.cc
 
 CMakeFiles/PIDQuantify.dir/src/QPerf.cc.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/PIDQuantify.dir/src/QPerf.cc.s: cmake_force
 CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o: /home/lins/u3_PIDQuantify/src/QPerfCollection.cc
 CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o -c /home/lins/u3_PIDQuantify/src/QPerfCollection.cc
 
 CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.s: cmake_force
 CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o: /home/lins/u3_PIDQuantify/src/QPerfCombo.cc
 CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o -c /home/lins/u3_PIDQuantify/src/QPerfCombo.cc
 
 CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.s: cmake_force
 CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o: /home/lins/u3_PIDQuantify/src/QProperty.cc
 CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QProperty.cc.o -c /home/lins/u3_PIDQuantify/src/QProperty.cc
 
 CMakeFiles/PIDQuantify.dir/src/QProperty.cc.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/PIDQuantify.dir/src/QProperty.cc.s: cmake_force
 CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o: /home/lins/u3_PIDQuantify/src/QROCCollection.cc
 CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.o -c /home/lins/u3_PIDQuantify/src/QROCCollection.cc
 
 CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/PIDQuantify.dir/src/QROCCollection.cc.s: cmake_force
 CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o: CMakeFiles/PIDQuantify.dir/flags.make
 CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o: /home/lins/u3_PIDQuantify/src/QROCCurve.cc
 CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o: CMakeFiles/PIDQuantify.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o"
 	/cvmfs/sft.cern.ch/lcg/releases/gcc/13.1.0-b3d18/x86_64-el9/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o -MF CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o.d -o CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o -c /home/lins/u3_PIDQuantify/src/QROCCurve.cc
 
 CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.i: cmake_force
@@ -185,6 +199,7 @@ CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.s: cmake_force
 PIDQuantify_OBJECTS = \
 "CMakeFiles/PIDQuantify.dir/src/QH2.cc.o" \
 "CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o" \
+"CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o" \
 "CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o" \
 "CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o" \
 "CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o" \
@@ -197,6 +212,7 @@ PIDQuantify_EXTERNAL_OBJECTS =
 
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QH2.cc.o
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o
+libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o
@@ -214,7 +230,7 @@ libPIDQuantify.so: /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gc
 libPIDQuantify.so: /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gcc13-opt/lib/libThread.so
 libPIDQuantify.so: /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gcc13-opt/lib/libCore.so
 libPIDQuantify.so: CMakeFiles/PIDQuantify.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library libPIDQuantify.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX shared library libPIDQuantify.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/PIDQuantify.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

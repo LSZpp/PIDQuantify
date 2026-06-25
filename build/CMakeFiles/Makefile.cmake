@@ -38,6 +38,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/lins/u3_PIDQuantify/PIDQuantify-config.in"
   "CMakeFiles/3.30.6/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.30.6/CMakeSystem.cmake"
+  "CMakeFiles/VerifyGlobs.cmake"
+  "CMakeFiles/cmake.verify_globs"
   )
 
 # The corresponding makefile is:

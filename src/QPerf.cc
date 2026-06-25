@@ -157,11 +157,28 @@ QPerf::QPerf(const std::string &batch,
              const std::string &directory,
              const double       cut_value_loose,
              const double       cut_value_strict)
+            :QPerf(batch,
+                   polarity,
+                   first_particle,
+                   second_particle,
+                   QHistogramSource::legacy(directory),
+                   cut_value_loose,
+                   cut_value_strict){
+}
+
+QPerf::QPerf(const std::string &batch,
+             const std::string &polarity,
+             const std::string &first_particle,
+             const std::string &second_particle,
+             const QHistogramSource &source,
+             const double       cut_value_loose,
+             const double       cut_value_strict)
             :_batch           (batch),
              _polarity        (polarity),
              _first_particle  (first_particle),
              _second_particle (second_particle),
-             _directory       (directory),
+             _directory       (source.directory()),
+             _source          (source),
              _cut_value_loose (cut_value_loose),
              _cut_value_strict(cut_value_strict){
     // Create the four histograms to be placed onto the figure
@@ -171,7 +188,7 @@ QPerf::QPerf(const std::string &batch,
                                       second_particle,
                                       "ID",
                                       cut_value_loose,
-                                      directory);
+                                      source);
 
     _perf_hist_strict_ID = new QH2Perf(batch,
                                        polarity,
@@ -179,7 +196,7 @@ QPerf::QPerf(const std::string &batch,
                                        second_particle,
                                        "ID",
                                        cut_value_strict,
-                                       directory);
+                                       source);
 
     _perf_hist_loose_misID = new QH2Perf(batch,
                                          polarity,
@@ -187,7 +204,7 @@ QPerf::QPerf(const std::string &batch,
                                          second_particle,
                                          "misID",
                                          cut_value_loose,
-                                         directory);
+                                         source);
 
     _perf_hist_strict_misID = new QH2Perf(batch,
                                           polarity,
@@ -195,7 +212,7 @@ QPerf::QPerf(const std::string &batch,
                                           second_particle,
                                           "misID",
                                           cut_value_strict,
-                                          directory);
+                                          source);
 
     // Draw the histograms into the two canvases
     std::string canvas_name =   batch

@@ -8,6 +8,7 @@
 // A class that allows the user to compare one-dimensional performance figures
 
 #include "QH2Perf.hh" 
+#include "QHistogramSource.hh"
 
 #include "TCanvas.h"
 #include "TStyle.h"
@@ -16,6 +17,7 @@
 #include <unordered_map>
 #include <map>
 #include <string> 
+#include <vector>
 
 class QPerfCollection{
 private:
@@ -41,11 +43,21 @@ public:
                   const std::string &name,
                   const std::string &directory); // function that adds a performance fig. to the collection
 
+    void add_perf(const std::string &batch,
+                  const std::string &polarity,
+                  const std::string &name,
+                  const QHistogramSource &source); // overload with a histogram source resolver
+
     void add_perf(const std::vector<std::string> &batches,
                   const std::vector<std::string> &polarities,
                   const std::string &name,
                   const std::string &directory); // function that adds a performance fig. with combined batches
                                                  // to the collection
+
+    void add_perf(const std::vector<std::string> &batches,
+                  const std::vector<std::string> &polarities,
+                  const std::string &name,
+                  const QHistogramSource &source); // overload with a histogram source resolver
 
     void create_figures(const std::string &canvas_name, 
                         const double min_efficiency_range =  .8,

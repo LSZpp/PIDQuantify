@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lins/u3_PIDQuantify/src/QH2.cc" "CMakeFiles/PIDQuantify.dir/src/QH2.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QH2.cc.o.d"
   "/home/lins/u3_PIDQuantify/src/QH2Perf.cc" "CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QH2Perf.cc.o.d"
+  "/home/lins/u3_PIDQuantify/src/QHistogramSource.cc" "CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QHistogramSource.cc.o.d"
   "/home/lins/u3_PIDQuantify/src/QPerf.cc" "CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QPerf.cc.o.d"
   "/home/lins/u3_PIDQuantify/src/QPerfCollection.cc" "CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QPerfCollection.cc.o.d"
   "/home/lins/u3_PIDQuantify/src/QPerfCombo.cc" "CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o" "gcc" "CMakeFiles/PIDQuantify.dir/src/QPerfCombo.cc.o.d"

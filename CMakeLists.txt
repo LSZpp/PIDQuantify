@@ -26,8 +26,8 @@ find_package(ROOT REQUIRED    )
 include     (${ROOT_USE_FILE} )
 
 # Setting the directories for the header and source files
-file(GLOB_RECURSE HEADERS include/*.hh)
-file(GLOB_RECURSE SOURCES     src/*.cc)
+file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS include/*.hh)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS     src/*.cc)
 
 # Now compiling the code to a shared library exposed to the user
 add_library               (PIDQuantify SHARED  ${HEADERS} ${SOURCES}          )

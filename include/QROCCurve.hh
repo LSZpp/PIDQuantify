@@ -7,6 +7,7 @@
 // A class that creates and stores a single ROCcurve
 
 #include "QH2.hh"
+#include "QHistogramSource.hh"
 
 #include "TGraphErrors.h"
 
@@ -43,6 +44,27 @@ public:
               const std::string &directory);
                     // constructor
 
+    QROCCurve(const std::string &batch,
+              const std::string &polarity,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const double       loosest_cut,
+              const double       strictest_cut,
+              const double       cut_interval,
+              const QHistogramSource &source);
+                    // constructor overload with a shared histogram source resolver
+
+    QROCCurve(const std::string &batch,
+              const std::string &polarity,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const double       loosest_cut,
+              const double       strictest_cut,
+              const double       cut_interval,
+              const QHistogramSource &id_source,
+              const QHistogramSource &misid_source);
+                    // constructor overload with separate ID and misID source resolvers
+
     QROCCurve(const std::vector<std::string> &batches,
               const std::vector<std::string> &polarities,
               const std::string &first_particle,
@@ -52,6 +74,27 @@ public:
               const double       cut_interval,
               const std::string &directory);
                     // constructor overload: create a ROC curve built from vector of different batches
+
+    QROCCurve(const std::vector<std::string> &batches,
+              const std::vector<std::string> &polarities,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const double       loosest_cut,
+              const double       strictest_cut,
+              const double       cut_interval,
+              const QHistogramSource &source);
+                    // constructor overload with a shared histogram source resolver
+
+    QROCCurve(const std::vector<std::string> &batches,
+              const std::vector<std::string> &polarities,
+              const std::string &first_particle,
+              const std::string &second_particle,
+              const double       loosest_cut,
+              const double       strictest_cut,
+              const double       cut_interval,
+              const QHistogramSource &id_source,
+              const QHistogramSource &misid_source);
+                    // constructor overload with separate ID and misID source resolvers
 
     TGraphErrors *get_curve() const;
 

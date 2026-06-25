@@ -8,6 +8,7 @@
 // A class storing a particular efficiency histogram binned in momentum and pseudorapidity and its settings
 
 #include "QProperty.hh"
+#include "QHistogramSource.hh"
 
 #include "TH2D.h"
 
@@ -29,6 +30,15 @@ public:
         const double       cut_value,
         const std::string &directory);
                      // constructor
+
+    QH2(const std::string &batch,
+        const std::string &polarity,
+        const std::string &first_particle,
+        const std::string &second_particle,
+        const std::string &identification_type,
+        const double       cut_value,
+        const QHistogramSource &source);
+                     // constructor overload with a histogram source resolver
 
     double sum_total () const;
     double sum_passed() const;   // Integral() of the total and passed histograms across all phase space

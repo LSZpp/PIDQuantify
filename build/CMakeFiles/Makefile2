@@ -81,12 +81,12 @@ clean: CMakeFiles/PIDQuantify.dir/clean
 CMakeFiles/PIDQuantify.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/PIDQuantify.dir/build.make CMakeFiles/PIDQuantify.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target PIDQuantify"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/lins/u3_PIDQuantify/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target PIDQuantify"
 .PHONY : CMakeFiles/PIDQuantify.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/PIDQuantify.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lins/u3_PIDQuantify/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lins/u3_PIDQuantify/build/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/PIDQuantify.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/lins/u3_PIDQuantify/build/CMakeFiles 0
 .PHONY : CMakeFiles/PIDQuantify.dir/rule
@@ -107,6 +107,7 @@ CMakeFiles/PIDQuantify.dir/clean:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/lins/u3_PIDQuantify/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
