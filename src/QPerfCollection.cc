@@ -39,7 +39,7 @@ void QPerfCollection::add_perf(const std::string &batch,
                                        "ID",
                                        _cut,
                                        source);
-    _perf_figures.insert({name, perf_figure});
+    _perf_figures.push_back({name, perf_figure});
 }
 
 void QPerfCollection::add_perf(const std::vector<std::string> &batches,
@@ -63,7 +63,7 @@ void QPerfCollection::add_perf(const std::vector<std::string> &batches,
                                        "ID",
                                        _cut,
                                        source);
-    _perf_figures.insert({name, perf_figure});
+    _perf_figures.push_back({name, perf_figure});
 }
 
 void QPerfCollection::create_figures(const std::string &canvas_name,
@@ -80,7 +80,7 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
 
     // Draw the performance figures on the canvases
     unsigned short curve_count = 0;
-    std::map<std::string, QH2Perf*>::const_iterator perf_figures_iterator;
+    std::vector<std::pair<std::string, QH2Perf*>>::const_iterator perf_figures_iterator;
     Color_t starting_colour = kP8Blue;
     auto assign_latex_particle = [](std::string particle) -> std::string{
         if      (particle == "P" ){return "#it{p}"  ;}
@@ -185,7 +185,7 @@ void QPerfCollection::export_canvases(){
 }
 
 QPerfCollection::~QPerfCollection(){
-    std::map<std::string, QH2Perf*>::const_iterator perf_figures_iterator;
+    std::vector<std::pair<std::string, QH2Perf*>>::const_iterator perf_figures_iterator;
     for (perf_figures_iterator  = _perf_figures.begin();
          perf_figures_iterator != _perf_figures.end(); 
          perf_figures_iterator++){

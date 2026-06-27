@@ -14,8 +14,9 @@ public:
     };
 
     enum class CutScheme{
-        DLL,    // linear DLL cut grid (e.g. DLLp>, DLLp-DLLK>)
-        ProbNN  // log-space ProbNN cut grid (PROBNN_P>exp(log) etc.)
+        DLL,          // linear DLL cut grid (e.g. DLLp>, DLLp-DLLK>)
+        ProbNN,       // log-space ProbNN cut grid   (PROBNN_P>exp(cut),      cut = log_e threshold)
+        ProbNNLinear  // linear ProbNN cut grid      (PROBNN_P>(cut/100),     cut = percent 0..100)
     };
 
 private:

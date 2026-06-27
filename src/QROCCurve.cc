@@ -59,13 +59,15 @@ QROCCurve::QROCCurve(const std::string &batch,
                      const double       strictest_cut,
                      const double       cut_interval,
                      const QHistogramSource &id_source,
-                     const QHistogramSource &misid_source)
+                     const QHistogramSource &misid_source,
+                     const QRegion     *region,
+                     const QReweight   *reweight)
                     :_first_particle (first_particle),
                      _second_particle(second_particle),
                      _loosest_cut  (loosest_cut),
                      _strictest_cut(strictest_cut),
                      _cut_interval (cut_interval){
-    // Create an empty TGraphErrors, prepare to fill in points 
+    // Create an empty TGraphErrors, prepare to fill in points
     _curve = new TGraphErrors();
 
     // Use the QH2 class to automatically create all the points on the curve
@@ -77,22 +79,26 @@ QROCCurve::QROCCurve(const std::string &batch,
     for (int point_index = 0; point_index <= n_points; ++point_index){
         const double cut = loosest_cut + point_index * cut_interval;
         QH2 *ID_point_hist = new QH2(batch,
-                                     polarity, 
-                                     first_particle, 
+                                     polarity,
+                                     first_particle,
                                      second_particle,
                                      "ID",
                                      cut,
-                                     id_source);
+                                     id_source,
+                                     region,
+                                     reweight);
         std::pair<double, double> ID_efficiency = _calculate_efficiency(*ID_point_hist);
         delete ID_point_hist;
 
         QH2 *misID_point_hist = new QH2(batch,
-                                        polarity, 
-                                        first_particle, 
+                                        polarity,
+                                        first_particle,
                                         second_particle,
                                         "misID",
                                         cut,
-                                        misid_source);
+                                        misid_source,
+                                        region,
+                                        reweight);
         std::pair<double, double> misID_efficiency = _calculate_efficiency(*misID_point_hist);
         delete misID_point_hist;
 
@@ -149,13 +155,14 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
                      const double       strictest_cut,
                      const double       cut_interval,
                      const QHistogramSource &id_source,
-                     const QHistogramSource &misid_source)
+                     const QHistogramSource &misid_source,
+                     const QRegion     *region)
                     :_first_particle (first_particle),
                      _second_particle(second_particle),
                      _loosest_cut  (loosest_cut),
                      _strictest_cut(strictest_cut),
                      _cut_interval (cut_interval){
-    // Create an empty TGraphErrors, prepare to fill in points 
+    // Create an empty TGraphErrors, prepare to fill in points
     _curve = new TGraphErrors();
 
     // Check that the batch vector and polarity vector has no size mismatches
@@ -173,12 +180,13 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
         auto build_histogram = [&](QH2 &point_hist, const std::string &identification_type){
             for (size_t vector_index = 1; vector_index < batches.size(); vector_index++){
                 QH2 *temp_hist = new QH2(batches[vector_index],
-                                         polarities[vector_index], 
+                                         polarities[vector_index],
                                          first_particle,
                                          second_particle,
-                                         identification_type, 
+                                         identification_type,
                                          cut,
-                                         identification_type == "ID" ? id_source : misid_source);
+                                         identification_type == "ID" ? id_source : misid_source,
+                                         region);
                 point_hist.add(*temp_hist);
                 delete temp_hist;
             }
@@ -187,22 +195,24 @@ QROCCurve::QROCCurve(const std::vector<std::string> &batches,
 
         QH2 *ID_point_hist = new QH2(batches[0],
                                      polarities[0],
-                                     first_particle, 
+                                     first_particle,
                                      second_particle,
                                      "ID",
                                      cut,
-                                     id_source);
+                                     id_source,
+                                     region);
         build_histogram(*ID_point_hist, "ID");
         std::pair<double, double> ID_efficiency = _calculate_efficiency(*ID_point_hist);
         delete ID_point_hist;
 
         QH2 *misID_point_hist = new QH2(batches[0],
-                                        polarities[0], 
-                                        first_particle, 
+                                        polarities[0],
+                                        first_particle,
                                         second_particle,
                                         "misID",
                                         cut,
-                                        misid_source);
+                                        misid_source,
+                                        region);
         build_histogram(*misID_point_hist, "misID");
         std::pair<double, double> misID_efficiency = _calculate_efficiency(*misID_point_hist);
         delete misID_point_hist;

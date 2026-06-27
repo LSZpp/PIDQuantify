@@ -14,7 +14,8 @@ QROCCollection::QROCCollection(const std::string &first_particle,
                                const std::string &second_particle,
                                const double       loosest_cut,
                                const double       strictest_cut,
-                               const double       cut_interval)
+                               const double       cut_interval,
+                               const QRegion     *region)
                               :_first_particle (first_particle),
                                _second_particle(second_particle),
                                _loosest_cut    (loosest_cut),
@@ -22,7 +23,8 @@ QROCCollection::QROCCollection(const std::string &first_particle,
                                _cut_interval   (cut_interval),
                                _id_source      (),
                                _misid_source   (),
-                               _has_default_source(false){
+                               _has_default_source(false),
+                               _region         (region){
 }
 
 QROCCollection::QROCCollection(const std::string &first_particle,
@@ -60,7 +62,8 @@ QROCCollection::QROCCollection(const std::string &first_particle,
                                const double       strictest_cut,
                                const double       cut_interval,
                                const QHistogramSource &id_source,
-                               const QHistogramSource &misid_source)
+                               const QHistogramSource &misid_source,
+                               const QRegion     *region)
                               :_first_particle (first_particle),
                                _second_particle(second_particle),
                                _loosest_cut    (loosest_cut),
@@ -68,7 +71,8 @@ QROCCollection::QROCCollection(const std::string &first_particle,
                                _cut_interval   (cut_interval),
                                _id_source      (id_source),
                                _misid_source   (misid_source),
-                               _has_default_source(true){
+                               _has_default_source(true),
+                               _region         (region){
 }
 
 void QROCCollection::add_curve(const std::string &batch, 
@@ -99,7 +103,8 @@ void QROCCollection::add_curve(const std::string &batch,
                                const std::string &polarity,
                                const std::string &name,
                                const QHistogramSource &id_source,
-                               const QHistogramSource &misid_source){
+                               const QHistogramSource &misid_source,
+                               const QReweight   *reweight){
     QROCCurve *curve = new QROCCurve(batch,
                                      polarity,
                                      _first_particle,
@@ -108,12 +113,40 @@ void QROCCollection::add_curve(const std::string &batch,
                                      _strictest_cut,
                                      _cut_interval,
                                      id_source,
-                                     misid_source);
+                                     misid_source,
+                                     _region,
+                                     reweight);
+    _curves.insert({name, curve});
+}
+
+void QROCCollection::add_curve(const std::string &batch,
+                               const std::string &polarity,
+                               const std::string &name,
+                               const double       loosest_cut,
+                               const double       strictest_cut,
+                               const double       cut_interval,
+                               const QHistogramSource &id_source,
+                               const QHistogramSource &misid_source,
+                               const QReweight   *reweight){
+    // Per-curve cut grid: lets a single figure mix curves scanned on different
+    // grids (e.g. DLL -50..50/0.5 and ProbNN log -15..0/0.05). The region (if any)
+    // and the collection's first/second particle are still shared.
+    QROCCurve *curve = new QROCCurve(batch,
+                                     polarity,
+                                     _first_particle,
+                                     _second_particle,
+                                     loosest_cut,
+                                     strictest_cut,
+                                     cut_interval,
+                                     id_source,
+                                     misid_source,
+                                     _region,
+                                     reweight);
     _curves.insert({name, curve});
 }
 
 void QROCCollection::add_curve(const std::vector<std::string> &batches,
-                               const std::vector<std::string> &polarities, 
+                               const std::vector<std::string> &polarities,
                                const std::string &name){
     if (!_has_default_source){
         throw std::runtime_error("QROCCollection has no default source; use an add_curve overload with source arguments");
@@ -149,12 +182,16 @@ void QROCCollection::add_curve(const std::vector<std::string> &batches,
                                      _strictest_cut,
                                      _cut_interval,
                                      id_source,
-                                     misid_source);
+                                     misid_source,
+                                     _region);
     _curves.insert({name, curve});
 }
 
 void QROCCollection::create_figure(const std::string &canvas_name,
-                                   const std::unordered_map<std::string, Color_t> *colour_map){
+                                   const std::unordered_map<std::string, Color_t> *colour_map,
+                                   const std::unordered_map<std::string, Style_t> *marker_map,
+                                   const std::pair<double, double> &x_range,
+                                   const std::pair<double, double> &y_range){
     // Declare a canvas
     _canvas = new TCanvas(canvas_name.c_str(), canvas_name.c_str(), 800, 600);
     _canvas->cd();
@@ -190,7 +227,11 @@ void QROCCollection::create_figure(const std::string &canvas_name,
                           (colour_map->find(curves_iterator->first) == colour_map->end()))
                          ? starting_colour + curve_count
                          : colour_map->at(curves_iterator->first);
-        curve->SetMarkerStyle(21);
+        Style_t marker_style = ((marker_map == nullptr) ||
+                                (marker_map->find(curves_iterator->first) == marker_map->end()))
+                               ? 21
+                               : marker_map->at(curves_iterator->first);
+        curve->SetMarkerStyle(marker_style);
         curve->SetMarkerSize(.6);
         curve->SetMarkerColor(colour);
         curve->SetLineColor(colour);
@@ -199,11 +240,12 @@ void QROCCollection::create_figure(const std::string &canvas_name,
         curve->GetXaxis()->SetTitleSize  ( .044   );
         curve->GetXaxis()->SetLabelSize  ( .044   );
         curve->GetXaxis()->SetTitleOffset(1.      );
-        curve->GetXaxis()->SetRangeUser  (.7, 1.005);
+        curve->GetXaxis()->SetLimits     (x_range.first, x_range.second);  // SetLimits (not
+                            // SetRangeUser) so the x-axis can extend beyond the data extent
         curve->GetYaxis()->SetTitle      (y_label.c_str());
         curve->GetYaxis()->SetTitleSize  ( .044   );
         curve->GetYaxis()->SetLabelSize  ( .044   );
-        curve->GetYaxis()->SetRangeUser  (1.e-3,1.); 
+        curve->GetYaxis()->SetRangeUser  (y_range.first, y_range.second);
         gPad ->SetLogy();
         curve->GetYaxis()->SetTitleOffset(1.      );
         legend->AddEntry(curve, curves_iterator->first.c_str(), "LP");

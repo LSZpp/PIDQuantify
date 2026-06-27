@@ -62,8 +62,12 @@ public:
               const double       strictest_cut,
               const double       cut_interval,
               const QHistogramSource &id_source,
-              const QHistogramSource &misid_source);
+              const QHistogramSource &misid_source,
+              const QRegion     *region   = nullptr,
+              const QReweight   *reweight = nullptr);
                     // constructor overload with separate ID and misID source resolvers
+                    // (optionally restricted to a phase-space region and/or
+                    //  per-bin kinematically reweighted)
 
     QROCCurve(const std::vector<std::string> &batches,
               const std::vector<std::string> &polarities,
@@ -93,8 +97,10 @@ public:
               const double       strictest_cut,
               const double       cut_interval,
               const QHistogramSource &id_source,
-              const QHistogramSource &misid_source);
+              const QHistogramSource &misid_source,
+              const QRegion     *region = nullptr);
                     // constructor overload with separate ID and misID source resolvers
+                    // (optionally restricted to a phase-space region)
 
     TGraphErrors *get_curve() const;
 

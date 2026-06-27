@@ -16,12 +16,15 @@
 
 #include <unordered_map>
 #include <map>
-#include <string> 
+#include <string>
 #include <vector>
+#include <utility>
 
 class QPerfCollection{
 private:
-    std::map<std::string, QH2Perf*> _perf_figures;  // the performance figures
+    // insertion-ordered list of performance figures (name, figure); the draw and
+    // legend order follow the order in which add_perf() was called
+    std::vector<std::pair<std::string, QH2Perf*>> _perf_figures;
 
     // the canvas for the figures for the p and eta projections
     TCanvas *_canvas_p   = nullptr;

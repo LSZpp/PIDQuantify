@@ -32,6 +32,12 @@ void QH2Perf::_calculate_eff(){
             double efficiency     = hist->GetBinContent(bin);
             double variable_err   = hist->GetBinWidth  (bin) * .5;
             double efficiency_err = hist->GetBinError  (bin);
+            // The binomial error is 0 at full efficiency; ROOT's Divide("B")
+            // only zeroes it when passed == total exactly, but with sWeights a
+            // bin can have passed > total (eff > 1, negative-weight events that
+            // fail the cut) where Divide returns a spurious abs() error. Mirror
+            // the ROC guard (QROCCurve::_calculate_efficiency) and zero it.
+            if (efficiency >= 1.) efficiency_err = 0.;
             graph->SetPoint     (bin - 1, variable    , efficiency    );
             graph->SetPointError(bin - 1, variable_err, efficiency_err);
         }
