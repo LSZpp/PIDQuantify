@@ -34,6 +34,12 @@ git filter-branch --force --prune-empty --index-filter '
     git rm -r --cached --ignore-unmatch "*macro_*.C" "*.pdf"
 ' --tag-name-filter cat -- --all
 
+echo "==> dropping filter-branch backup refs (refs/original) and repacking"
+git for-each-ref --format='%(refname)' refs/original/ \
+    | xargs -r -n1 git update-ref -d
+git reflog expire --expire=now --all
+git gc --prune=now --quiet
+
 echo "==> adding the exclusion .gitignore to the mirror"
 {
   echo ""
@@ -44,14 +50,14 @@ echo "==> adding the exclusion .gitignore to the mirror"
 git add .gitignore
 git commit -m "Public mirror: exclude CERN plot data (macro_*.C, *.pdf)"
 
-echo "==> verifying no data files remain anywhere in history"
-LEAK="$(git log --all --pretty=format: --name-only -- '*macro_*.C' '*.pdf' | sort -u | grep -c . || true)"
+echo "==> verifying no data files remain in the $BRANCH history (the pushed branch)"
+LEAK="$(git log "$BRANCH" --pretty=format: --name-only -- '*macro_*.C' '*.pdf' | sort -u | grep -c . || true)"
 if [[ "$LEAK" -ne 0 ]]; then
-    echo "ABORT: $LEAK CERN data file(s) still present in history:" >&2
-    git log --all --pretty=format: --name-only -- '*macro_*.C' '*.pdf' | sort -u | head >&2
+    echo "ABORT: $LEAK CERN data file(s) still present in $BRANCH history:" >&2
+    git log "$BRANCH" --pretty=format: --name-only -- '*macro_*.C' '*.pdf' | sort -u | head >&2
     exit 1
 fi
-echo "    OK: 0 macro_*.C / *.pdf in the scrubbed history"
+echo "    OK: 0 macro_*.C / *.pdf in the scrubbed $BRANCH history"
 
 echo "==> force-pushing scrubbed mirror to GitHub ($BRANCH)"
 git push --force "$GITHUB_URL" "$BRANCH:$BRANCH"
