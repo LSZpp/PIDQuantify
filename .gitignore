@@ -1,1 +1,14 @@
 *.root
+
+# -------------------------------------------------------------------------
+# CERN plot data policy
+# -------------------------------------------------------------------------
+# ROOT canvas dumps (figures/**/macro_*.C, written by TCanvas::SaveSource)
+# and the figure PDFs (*.pdf) embed CERN plot data, so they must NOT appear on
+# the PUBLIC GitHub mirror. They ARE kept here on the canonical GitLab repo.
+#
+# They are deliberately NOT ignored below: ignoring them here would stop GitLab
+# from tracking them. Instead, ./publish-github.sh strips macro_*.C and *.pdf
+# from the ENTIRE history and force-pushes a scrubbed mirror to GitHub (that
+# mirror carries its own .gitignore that DOES exclude them). See that script.
+# -------------------------------------------------------------------------
