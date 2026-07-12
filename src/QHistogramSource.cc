@@ -172,7 +172,10 @@ QHistogramSource::QHistogramSource()
                  _binning_suffix("P.ETA"),
                  _is_3d(false),
                  _nlongtracks_low(0.),
-                 _nlongtracks_high(0.){
+                 _nlongtracks_high(0.),
+                 _probe_particle_override(""),
+                 _drop_product_close_paren_in_filename(false),
+                 _dll_cut_precision(1){
 }
 
 QHistogramSource::QHistogramSource(const std::string &directory)
@@ -183,7 +186,10 @@ QHistogramSource::QHistogramSource(const std::string &directory)
                  _binning_suffix("P.ETA"),
                  _is_3d(false),
                  _nlongtracks_low(0.),
-                 _nlongtracks_high(0.){
+                 _nlongtracks_high(0.),
+                 _probe_particle_override(""),
+                 _drop_product_close_paren_in_filename(false),
+                 _dll_cut_precision(1){
 }
 
 QHistogramSource::QHistogramSource(const std::string &directory,
@@ -193,7 +199,10 @@ QHistogramSource::QHistogramSource(const std::string &directory,
                                    const std::string &binning_suffix,
                                    const bool         is_3d,
                                    const double       nlongtracks_low,
-                                   const double       nlongtracks_high)
+                                   const double       nlongtracks_high,
+                                   const std::string &probe_particle_override,
+                                   const bool         drop_product_close_paren_in_filename,
+                                   const int          dll_cut_precision)
                 :_directory(directory),
                  _sample_set(sample_set),
                  _mode(mode),
@@ -201,7 +210,10 @@ QHistogramSource::QHistogramSource(const std::string &directory,
                  _binning_suffix(binning_suffix),
                  _is_3d(is_3d),
                  _nlongtracks_low(nlongtracks_low),
-                 _nlongtracks_high(nlongtracks_high){
+                 _nlongtracks_high(nlongtracks_high),
+                 _probe_particle_override(probe_particle_override),
+                 _drop_product_close_paren_in_filename(drop_product_close_paren_in_filename),
+                 _dll_cut_precision(dll_cut_precision){
 }
 
 QHistogramSource QHistogramSource::legacy(const std::string &directory){
@@ -213,6 +225,14 @@ QHistogramSource QHistogramSource::finals(const std::string &directory,
                                           const CutScheme    cut_scheme){
     return QHistogramSource(directory, sample_set, NamingMode::Finals,
                             cut_scheme, "P.ETA", false, 0., 0.);
+}
+
+QHistogramSource QHistogramSource::probnn_study(const std::string &directory,
+                                                const std::string &probe_particle,
+                                                const CutScheme    cut_scheme){
+    return QHistogramSource(directory, "", NamingMode::Legacy,
+                            cut_scheme, "P.ETA-binning", false, 0., 0.,
+                            probe_particle, true, 2);
 }
 
 QHistogramSource QHistogramSource::finals_3d(const std::string &directory,
@@ -232,14 +252,35 @@ std::string QHistogramSource::path(const std::string &batch,
     const std::string dataset = (_mode == NamingMode::Legacy)
                               ? _legacy_dataset(batch, probe_particle)
                               : _finals_dataset(batch, probe_particle, _sample_set);
+    const std::string filename_probe_particle = _probe_particle_override.empty()
+                                              ? probe_particle
+                                              : _probe_particle_override;
 
     return   _histogram_directory()
            + "effhists-"
            + dataset + "-"
            + polarity + "-"
-           + probe_particle + "-"
-           + cut_string + "-"
+           + filename_probe_particle + "-"
+           + filename_cut_string(cut_string) + "-"
            + _binning_suffix + ".root";
+}
+
+std::string QHistogramSource::filename_cut_string(const std::string &cut_string) const{
+    if (!_drop_product_close_paren_in_filename) return cut_string;
+
+    std::string filename_cut = cut_string;
+    const size_t greater_position = filename_cut.find('>');
+    const size_t less_position    = filename_cut.find('<');
+    const size_t operator_position = (greater_position == std::string::npos)
+                                   ? less_position
+                                   : greater_position;
+    if (operator_position != std::string::npos &&
+        operator_position > 0 &&
+        filename_cut[operator_position - 1] == ')' &&
+        filename_cut.find("*(1-PROBNN_") != std::string::npos){
+        filename_cut.erase(operator_position - 1, 1);
+    }
+    return filename_cut;
 }
 
 const std::string &QHistogramSource::directory() const{return _directory;}
@@ -249,3 +290,5 @@ QHistogramSource::CutScheme QHistogramSource::cut_scheme() const{return _cut_sch
 bool   QHistogramSource::is_3d() const{return _is_3d;}
 double QHistogramSource::nlongtracks_low()  const{return _nlongtracks_low; }
 double QHistogramSource::nlongtracks_high() const{return _nlongtracks_high;}
+const std::string &QHistogramSource::probe_particle_override() const{return _probe_particle_override;}
+int QHistogramSource::dll_cut_precision() const{return _dll_cut_precision;}

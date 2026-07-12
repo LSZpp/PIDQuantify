@@ -21,15 +21,14 @@ std::string QProperty::_find_probe_particle() const{
 
 std::string QProperty::construct_cut_string() const{
     // ProbNN schemes: the discriminator characterises the first (ID) particle,
-    // so it is PROBNN_<first_particle> regardless of the second particle. The
-    // threshold written into the filename is a probability in [0,1], formatted as
-    // a plain double with 10 decimals to match the bash job grid byte-for-byte:
-    //   ProbNN       -> cut is log_e(threshold), threshold = exp(cut)
-    //                   (awk "%.10f" of exp(-15 + 0.05*i), 301 pts)
-    //   ProbNNLinear -> cut is a percent 0..100, threshold = cut/100
-    //                   (awk "%.10f" of (i*0.2)/100, 501 pts)
-    if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNN ||
-        _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNLinear){
+    // so it is based on PROBNN_<first_particle> regardless of the source sample.
+    // The threshold written into the filename is a probability in [0,1].
+    const bool is_probnn =
+        _source.cut_scheme() == QHistogramSource::CutScheme::ProbNN ||
+        _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNLinear ||
+        _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNTanh ||
+        _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNTanhNotSecond;
+    if (is_probnn){
         std::string discriminator;
         if      (_first_particle == "P" ){discriminator = "PROBNN_P" ;}
         else if (_first_particle == "K" ){discriminator = "PROBNN_K" ;}
@@ -39,12 +38,28 @@ std::string QProperty::construct_cut_string() const{
             throw std::runtime_error("ProbNN cut: first particle must be P, K, or Pi");
         }
 
-        const double threshold =
-            (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNN)
-                ? std::exp(_cut_value)
-                : _cut_value / 100.0;
+        if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNNTanhNotSecond){
+            if      (_second_particle == "P" ){discriminator += "*(1-PROBNN_P)" ;}
+            else if (_second_particle == "K" ){discriminator += "*(1-PROBNN_K)" ;}
+            else if (_second_particle == "Pi"){discriminator += "*(1-PROBNN_PI)";}
+            else{
+                this->print();
+                throw std::runtime_error("ProbNN product cut: second particle must be P, K, or Pi");
+            }
+        }
+
+        double threshold = 0.;
+        int precision = 10;
+        if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNN){
+            threshold = std::exp(_cut_value);
+        } else if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNNLinear){
+            threshold = _cut_value / 100.0;
+        } else{
+            threshold = std::tanh(_cut_value);
+            precision = 9;
+        }
         std::ostringstream oss;
-        oss << std::fixed << std::setprecision(10) << threshold;
+        oss << std::fixed << std::setprecision(precision) << threshold;
         return discriminator + ">" + oss.str();
     }
 
@@ -69,7 +84,7 @@ std::string QProperty::construct_cut_string() const{
     } else{
         std::string cut_variable = cut_string_map_iterator->second;
         std::ostringstream oss;
-        oss << std::fixed << std::setprecision(1) << _cut_value;
+        oss << std::fixed << std::setprecision(_source.dll_cut_precision()) << _cut_value;
         std::string cut_value_string = oss.str();
         std::string cut_string = cut_variable + cut_value_string;
         return cut_string;

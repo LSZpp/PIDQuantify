@@ -72,6 +72,15 @@ int main(){
         {LABEL_LC,  kBlue + 2},
     };
 
+    // Marker per sample: old (Preliminary) = solid square (21); the others keep
+    // the default hollow circle (24).
+    const std::unordered_map<std::string, Style_t> style_map = {
+        {LABEL_OLD, 21},
+        {LABEL_NEW, 24},
+        {LABEL_LC,  24},
+ 
+    };
+
     unsigned int made = 0, skipped = 0;
     for (const Dataset &d : datasets){
         for (const Discriminator &disc : discriminators){
@@ -84,7 +93,7 @@ int main(){
                     curves.add_perf(d.batch, d.polarity, LABEL_OLD, oldL0_source);
                     curves.add_perf(d.batch, d.polarity, LABEL_NEW, newL0_source);
                     curves.add_perf(d.batch, d.polarity, LABEL_LC,  Lc_source   );
-                    curves.create_figures(name, .7, 1.1, &colour_map);
+                    curves.create_figures(name, .8, 1.05, &colour_map, &style_map);
                     curves.export_canvases();
                     ++made;
                 } catch (const std::exception &e){
