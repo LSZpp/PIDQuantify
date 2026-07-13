@@ -35,6 +35,13 @@ std::string probnn_name(const std::string &particle){
     throw std::runtime_error("Unsupported particle " + particle);
 }
 
+std::string latex(const std::string &particle){
+    if (particle == "P")  return "#it{p}";
+    if (particle == "K")  return "#it{K}";
+    if (particle == "Pi") return "#it{#pi}";
+    throw std::runtime_error("Unsupported particle " + particle);
+}
+
 QHistogramSource study_source(const std::string &particle,
                               const std::string &fiducial,
                               const CS           cut_scheme){
@@ -106,19 +113,19 @@ void make_curve(const std::string &fiducial,
     const QHistogramSource id_product  = study_source(first_particle,  fiducial, CS::ProbNNTanhNotSecond);
     const QHistogramSource mis_product = study_source(second_particle, fiducial, CS::ProbNNTanhNotSecond);
 
-    const std::string dll_label = "DLL";
-    const std::string probnn_label = probnn_name(first_particle);
-    const std::string product_label = probnn_name(first_particle) + "*(1-" + probnn_name(second_particle) + ")";
+    const std::string dll_label = "#Delta log #it{L} (" + latex(first_particle) + " #minus " + latex(second_particle) + ")";
+    const std::string probnn_label = "#it{p}_{NN} (" + latex(first_particle) + ")";
+    const std::string product_label = "#it{p}_{NN} (" + latex(first_particle) + ") (1 - #it{p}_{NN} (" + latex(second_particle) + "))";
 
     const std::unordered_map<std::string, Color_t> colours = {
-        {dll_label,     kBlack},
-        {probnn_label,  kBlue + 1},
-        {product_label, kRed + 1},
+        {dll_label,     kRed + 2},
+        {probnn_label,  kTeal - 8},
+        {product_label, kAzure + 3},
     };
     const std::unordered_map<std::string, Style_t> markers = {
-        {dll_label,     25},
-        {probnn_label,  24},
-        {product_label, 26},
+        {dll_label,     1},
+        {probnn_label,  1},
+        {product_label, 1},
     };
 
     QROCCollection curves(first_particle, second_particle, -30., 30., .05);
@@ -155,7 +162,7 @@ void make_curve(const std::string &fiducial,
 
     const std::string canvas_name = "probnn_study_25c4_magup_" + fiducial + "_"
                                   + first_particle + "_to_" + second_particle;
-    curves.create_figure(canvas_name, &colours, &markers, {0.70, 1.005}, {1.e-6, 1.});
+    curves.create_figure(canvas_name, &colours, &markers, {0.70, 1.005}, {1.e-3, 1.});
     curves.export_canvas();
 }
 
@@ -182,10 +189,7 @@ int main(int argc, char **argv){
     const std::vector<std::pair<std::string, std::string>> pairs = {
         {"P", "K"},
         {"P", "Pi"},
-        {"K", "P"},
-        {"K", "Pi"},
-        {"Pi", "P"},
-        {"Pi", "K"},
+        {"K", "Pi"}
     };
 
     int produced = 0;
