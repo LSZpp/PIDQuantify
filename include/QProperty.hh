@@ -38,6 +38,14 @@ public:
     std::string construct_cut_string() const;
                     // constructs the cut string using the property of the efficiency histogram
 
+    double threshold() const;
+                    // the numeric threshold the cut string encodes, i.e. tanh(cut),
+                    // 1 - tanh(cut) for a complement source, exp(cut), cut/100, or
+                    // the DLL cut value itself. This is the physical parameter that
+                    // runs along a ROC curve (loose -> tight), so it is what QROCCurve
+                    // orders merged scans by; ordering by ID efficiency instead breaks
+                    // down wherever the curve is vertical.
+
     QProperty(const std::string &batch,
               const std::string &polarity,
               const std::string &first_particle,

@@ -1,0 +1,26 @@
+[I 260713 22:09:52 plot_calib_distributions:203] Running PIDCalib2 plot_calib_distributions with the following config:
+[I 260713 22:09:52 utils:152] =============
+[I 260713 22:09:52 utils:155] sample       : 2025_c4_v0
+[I 260713 22:09:52 utils:155] magnet       : up
+[I 260713 22:09:52 utils:155] particle     : Pi
+[I 260713 22:09:52 utils:155] bin_vars     : ['P', 'ETA']
+[I 260713 22:09:52 utils:155] output_dir   : /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_25c4_magup_positive/Pi
+[I 260713 22:09:52 utils:155] format       : pdf
+[I 260713 22:09:52 utils:155] binning_file : /home/lins/u3_PIDQuantify/figures/PROBNN_study/binning_uniform_sweights.json
+[I 260713 22:09:52 utils:155] bins         : 50
+[I 260713 22:09:52 utils:155] force_uniform: False
+[I 260713 22:09:52 utils:155] cuts         : ['trackcharge>0']
+[I 260713 22:09:52 utils:155] verbose      : False
+[I 260713 22:09:52 utils:155] version      : 1.5.3
+[I 260713 22:09:52 utils:156] =============
+[I 260713 22:09:52 plot_calib_distributions:272] 246 calibration files from EOS will be processed
+[I 260713 22:09:52 binning:529] Loading binnings from /home/lins/u3_PIDQuantify/figures/PROBNN_study/binning_uniform_sweights.json
+[I 260714 01:43:48 plot_calib_distributions:474] Processed 246/246 files
+[I 260714 01:43:48 utils:885] 517069657/532127397 (97.2%) events passed binning range cut
+[I 260714 01:43:48 utils:885] 253054066/517069657 (48.9%) events passed user cut
+[I 260714 01:43:48 plot_calib_distributions:523] Saving histograms to /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_25c4_magup_positive/Pi/plot_calib_distributions.pkl
+[I 260714 01:43:48 plot_calib_distributions:508] Saving plot /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_25c4_magup_positive/Pi/P.pdf
+[I 260714 01:43:48 plot_calib_distributions:508] Saving plot /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_25c4_magup_positive/Pi/ETA.pdf
+[I 260714 01:43:53 pklhisto2root:168] Converting histogram 'P'
+[I 260714 01:43:53 pklhisto2root:168] Converting histogram 'ETA'
+[I 260714 01:43:53 pklhisto2root:172] Writing ROOT histograms to '/home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_25c4_magup_positive/Pi/plot_calib_distributions.root'

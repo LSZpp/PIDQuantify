@@ -70,6 +70,14 @@ std::string QHistogramSource::_legacy_dataset(const std::string &batch,
         {"25c4u",   "2025_c4_v0"              },
         {"25c4d",   "2025_c4_v0"              },
         {"26c1",    "2026_c1_v0"              },
+        // 2026 K/Pi sets from bovill (binning_scheme_George suffix stripped on
+        // copy). Both conditions carry both polarities. The "s" tags are the
+        // 2026 batch keys to use whenever a figure mixes a proton ID leg with a
+        // K/Pi mis-ID leg, because they also resolve in the finals batch map
+        // below (the plain "26c1"/"26c2" keys do NOT resolve here: they address
+        // the older legacy-naming K/Pi histograms).
+        {"s26c1",   "2026_s26c1_beta_fixed"   },
+        {"s26c2",   "2026_s26c2_beta_fixed"   },
         {"24b7_secondary", "2024_WithUT_block7_v2"},
         {"24b8_secondary", "2024_WithUT_block8_v2"},
         {"25c1_secondary", "2025_c1_v0"},
@@ -95,9 +103,32 @@ std::string QHistogramSource::_legacy_dataset(const std::string &batch,
     return dataset_map_iterator->second;
 }
 
+bool QHistogramSource::_is_2026_batch(const std::string &batch){
+    // "26c*" and the equivalent "s26c*" K/Pi-compatible tags are both 2026.
+    return batch.rfind("26c", 0) == 0 || batch.rfind("s26c", 0) == 0;
+}
+
+// For the 2026 samples the Lc sWeights are selected with the P_Lc particle, and
+// make_eff_hists writes that into the filename. Callers still pass probe "P" (the
+// Lc curve is a proton ID leg), so translate it here for the Lc set only.
+std::string QHistogramSource::_finals_probe_particle(const std::string &batch,
+                                                     const std::string &probe_particle,
+                                                     const std::string &sample_set){
+    if (sample_set == "Lc" && _is_2026_batch(batch)) return "P_Lc";
+    return probe_particle;
+}
+
 std::string QHistogramSource::_finals_dataset(const std::string &batch,
                                               const std::string &probe_particle,
                                               const std::string &sample_set){
+    // 2024 Block-4 stability study: these histograms are produced as the
+    // unprefixed PIDCalib2 sample names, unlike the historical finals files.
+    if (sample_set == "newL0") {
+        if (batch == "24b4")   return "2024_WithUT_block4";
+        if (batch == "24b4p2") return "2024_WithUT_block4_partition2";
+        if (batch == "24b4p3") return "2024_WithUT_block4_partition3";
+    }
+
     const std::unordered_map<std::string, std::string> finals_batch_map = {
         {"24b1",  "2024_block1"},
         {"24b2",  "2024_block2"},
@@ -114,23 +145,22 @@ std::string QHistogramSource::_finals_dataset(const std::string &batch,
         {"25c4",  "2025_c4"   },
         {"25c4u", "2025_c4"   },
         {"25c4d", "2025_c4"   },
+        {"26c1",  "2026_c1"   },
+        {"26c1d", "2026_c1"   },
+        {"26c1u", "2026_c1"   },
+        {"26c2",  "2026_c2"   },
+        {"26c2d", "2026_c2"   },
+        {"26c2u", "2026_c2"   },
+        // The "s" tags name the same 2026 conditions, and are the keys to use
+        // for a figure whose ID leg is a proton sample (resolved here) and whose
+        // mis-ID leg is a K/Pi sample (resolved in the legacy K/Pi map above).
+        {"s26c1", "2026_c1"   },
+        {"s26c2", "2026_c2"   },
     };
 
-    const auto finals_batch_iterator = finals_batch_map.find(batch);
-    if (finals_batch_iterator == finals_batch_map.end()){
-        throw std::runtime_error("Input batch is not found in the finals batch map");
-    }
-
-    if (sample_set == "newL0"){
-        if (probe_particle != "P") throw std::runtime_error("Finals newL0 histograms are proton-only");
-        return "L0_" + finals_batch_iterator->second;
-    }
-
-    if (sample_set == "Lc"){
-        if (probe_particle != "P") throw std::runtime_error("Finals Lc histograms are proton-only");
-        return "Lc_" + finals_batch_iterator->second;
-    }
-
+    // The oldL0 / K / Pi sets resolve through the legacy dataset map (which also
+    // carries the 2026 s26c1/s26c2 K-Pi batches), so route them before the
+    // finals batch lookup below.
     if (sample_set == "oldL0"){
         if (probe_particle != "P") throw std::runtime_error("Finals oldL0 histograms are proton-only");
         return _legacy_dataset(batch, probe_particle);
@@ -144,6 +174,30 @@ std::string QHistogramSource::_finals_dataset(const std::string &batch,
     if (sample_set == "Pi"){
         if (probe_particle != "Pi") throw std::runtime_error("Finals Pi histograms require probe particle Pi");
         return _legacy_dataset(batch, probe_particle);
+    }
+
+    const auto finals_batch_iterator = finals_batch_map.find(batch);
+    if (finals_batch_iterator == finals_batch_map.end()){
+        throw std::runtime_error("Input batch is not found in the finals batch map");
+    }
+
+    // The 2026 histograms follow the standard PIDCalib2 sample naming: one shared
+    // "<year>_<cond>_v0" base per condition, with L0 and Lc distinguished by the
+    // probe particle (P vs P_Lc) rather than by a prefix. The 2024/2025 finals
+    // histograms already on disk still carry the older "L0_"/"Lc_" prefixed names
+    // with probe P, so those keep resolving exactly as before. If 2024/2025 are
+    // ever REGENERATED they will come out under the standard naming too (see
+    // 4f_eff_hists_finals.sh) and these two branches must be collapsed.
+    if (sample_set == "newL0"){
+        if (probe_particle != "P") throw std::runtime_error("Finals newL0 histograms are proton-only");
+        if (_is_2026_batch(batch)) return finals_batch_iterator->second + "_v0";
+        return "L0_" + finals_batch_iterator->second;
+    }
+
+    if (sample_set == "Lc"){
+        if (probe_particle != "P") throw std::runtime_error("Finals Lc histograms are proton-only");
+        if (_is_2026_batch(batch)) return finals_batch_iterator->second + "_v0";
+        return "Lc_" + finals_batch_iterator->second;
     }
 
     throw std::runtime_error("Unknown finals histogram sample set");
@@ -175,7 +229,8 @@ QHistogramSource::QHistogramSource()
                  _nlongtracks_high(0.),
                  _probe_particle_override(""),
                  _drop_product_close_paren_in_filename(false),
-                 _dll_cut_precision(1){
+                 _dll_cut_precision(1),
+                 _probnn_complement(false){
 }
 
 QHistogramSource::QHistogramSource(const std::string &directory)
@@ -189,7 +244,8 @@ QHistogramSource::QHistogramSource(const std::string &directory)
                  _nlongtracks_high(0.),
                  _probe_particle_override(""),
                  _drop_product_close_paren_in_filename(false),
-                 _dll_cut_precision(1){
+                 _dll_cut_precision(1),
+                 _probnn_complement(false){
 }
 
 QHistogramSource::QHistogramSource(const std::string &directory,
@@ -202,7 +258,8 @@ QHistogramSource::QHistogramSource(const std::string &directory,
                                    const double       nlongtracks_high,
                                    const std::string &probe_particle_override,
                                    const bool         drop_product_close_paren_in_filename,
-                                   const int          dll_cut_precision)
+                                   const int          dll_cut_precision,
+                                   const bool         probnn_complement)
                 :_directory(directory),
                  _sample_set(sample_set),
                  _mode(mode),
@@ -213,7 +270,8 @@ QHistogramSource::QHistogramSource(const std::string &directory,
                  _nlongtracks_high(nlongtracks_high),
                  _probe_particle_override(probe_particle_override),
                  _drop_product_close_paren_in_filename(drop_product_close_paren_in_filename),
-                 _dll_cut_precision(dll_cut_precision){
+                 _dll_cut_precision(dll_cut_precision),
+                 _probnn_complement(probnn_complement){
 }
 
 QHistogramSource QHistogramSource::legacy(const std::string &directory){
@@ -229,10 +287,11 @@ QHistogramSource QHistogramSource::finals(const std::string &directory,
 
 QHistogramSource QHistogramSource::probnn_study(const std::string &directory,
                                                 const std::string &probe_particle,
-                                                const CutScheme    cut_scheme){
+                                                const CutScheme    cut_scheme,
+                                                const bool         probnn_complement){
     return QHistogramSource(directory, "", NamingMode::Legacy,
                             cut_scheme, "P.ETA-binning", false, 0., 0.,
-                            probe_particle, true, 2);
+                            probe_particle, true, 2, probnn_complement);
 }
 
 QHistogramSource QHistogramSource::finals_3d(const std::string &directory,
@@ -252,9 +311,12 @@ std::string QHistogramSource::path(const std::string &batch,
     const std::string dataset = (_mode == NamingMode::Legacy)
                               ? _legacy_dataset(batch, probe_particle)
                               : _finals_dataset(batch, probe_particle, _sample_set);
-    const std::string filename_probe_particle = _probe_particle_override.empty()
-                                              ? probe_particle
-                                              : _probe_particle_override;
+    std::string filename_probe_particle = _probe_particle_override.empty()
+                                        ? probe_particle
+                                        : _probe_particle_override;
+    if (_mode == NamingMode::Finals && _probe_particle_override.empty()){
+        filename_probe_particle = _finals_probe_particle(batch, probe_particle, _sample_set);
+    }
 
     return   _histogram_directory()
            + "effhists-"
@@ -292,3 +354,4 @@ double QHistogramSource::nlongtracks_low()  const{return _nlongtracks_low; }
 double QHistogramSource::nlongtracks_high() const{return _nlongtracks_high;}
 const std::string &QHistogramSource::probe_particle_override() const{return _probe_particle_override;}
 int QHistogramSource::dll_cut_precision() const{return _dll_cut_precision;}
+bool QHistogramSource::probnn_complement() const{return _probnn_complement;}

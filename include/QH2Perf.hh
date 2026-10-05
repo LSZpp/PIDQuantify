@@ -38,7 +38,8 @@ public:
             const std::string &second_particle,
             const std::string &identification_type,
             const double       cut_value,
-            const std::string &directory);
+            const std::string &directory,
+            const QRegion     *region = nullptr);
             // constructor
 
     QH2Perf(const std::string &batch,
@@ -47,8 +48,13 @@ public:
             const std::string &second_particle,
             const std::string &identification_type,
             const double       cut_value,
-            const QHistogramSource &source);
-            // constructor overload with a histogram source resolver
+            const QHistogramSource &source,
+            const QRegion     *region = nullptr);
+            // constructor overload with a histogram source resolver.
+            // A region restricts the projections: the eta profile is built only
+            // from the momentum bins inside it (and the p profile only from the
+            // eta bins inside it), so samples whose histograms cover different
+            // momentum ranges can still be compared like for like.
 
     QH2Perf(const std::vector<std::string> &batches,
             const std::vector<std::string> &polarities,
@@ -56,7 +62,8 @@ public:
             const std::string &second_particle,
             const std::string &identification_type,
             const double       cut_value,
-            const std::string &directory);
+            const std::string &directory,
+            const QRegion     *region = nullptr);
             // constructor for combined batches
 
     QH2Perf(const std::vector<std::string> &batches,
@@ -65,7 +72,8 @@ public:
             const std::string &second_particle,
             const std::string &identification_type,
             const double       cut_value,
-            const QHistogramSource &source);
+            const QHistogramSource &source,
+            const QRegion     *region = nullptr);
             // constructor overload for combined batches with a histogram source resolver
     
     // getters for the efficiencies

@@ -333,4 +333,5 @@ CMakeFiles/PIDQuantify.dir/src/QROCCurve.cc.o: \
  /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gcc13-opt/include/TAxis.h \
  /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gcc13-opt/include/TGraphErrors.h \
  /cvmfs/sft.cern.ch/lcg/views/LCG_108a_LHCB_Core/x86_64-el9-gcc13-opt/include/TGraph.h \
- /home/lins/u3_PIDQuantify/include/QH2.hh
+ /home/lins/u3_PIDQuantify/include/QH2.hh \
+ /home/lins/u3_PIDQuantify/include/QProperty.hh

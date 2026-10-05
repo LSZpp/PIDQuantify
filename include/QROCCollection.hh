@@ -97,8 +97,17 @@ public:
                                                               // ProbNN) can share one figure
                                                               // (optionally reweighted)
 
+    void add_curve(const std::string &batch,
+                   const std::string &polarity,
+                   const std::string &name,
+                   const std::vector<QROCScan> &scans,
+                   const QReweight   *reweight = nullptr);    // overload building one curve out of
+                                                              // several scans, so that a ">" scan and
+                                                              // its "<" complement scan merge into a
+                                                              // single curve (optionally reweighted)
+
     void add_curve(const std::vector<std::string> &batches,
-                   const std::vector<std::string> &polarities, 
+                   const std::vector<std::string> &polarities,
                    const std::string &name);    // function that adds an curve with combined batches
                                                 // to the collection
 
@@ -117,14 +126,19 @@ public:
                        const std::unordered_map<std::string, Color_t> *colour_map = nullptr,
                        const std::unordered_map<std::string, Style_t> *marker_map = nullptr,
                        const std::pair<double, double> &x_range = {0.7, 1.005},
-                       const std::pair<double, double> &y_range = {1.e-3, 1.});
-                            // function that creates a figure. colour_map / marker_map
-                            // optionally override the colour / marker style per curve
-                            // (keyed by the curve name); curves not present fall back
-                            // to the defaults (sequential colours, filled square 21).
+                       const std::pair<double, double> &y_range = {1.e-3, 1.},
+                       const std::unordered_map<std::string, Size_t> *size_map = nullptr);
+                            // function that creates a figure. colour_map / marker_map /
+                            // size_map optionally override the colour / marker style /
+                            // marker size per curve (keyed by the curve name); curves
+                            // not present fall back to the defaults (sequential colours,
+                            // filled square 21, size .6).
                             // x_range / y_range set the ID-efficiency (x) and the (log)
                             // mis-ID (y) axis windows, for regions where the curves run
                             // outside the default 0.7-1.005 x / 1e-3-1 y box.
+                            // A size_map matters when the curves overlap: give them all
+                            // one open marker and descending sizes and they nest instead
+                            // of hiding each other.
 
     void export_canvas();   // function that exports the figure canvas
 

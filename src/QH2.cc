@@ -100,6 +100,10 @@ QH2::QH2(const std::string &batch,
 
         // nLongTracks (z): if a region pins it, use the enclosed-bin window
         // (only fully-contained bins); otherwise fall back to the source window.
+        // A degenerate source window (high <= low, e.g. the finals_3d defaults
+        // 0., 0.) applies no z-restriction: the histogram is marginalised over
+        // the full nLongTracks range, which recovers the plain 2d (P, ETA)
+        // efficiency by summing the pass/total counts of every z slice.
         bool z_from_region = false;
         if (region){
             auto it = region->find("nLongTracks");
@@ -111,7 +115,7 @@ QH2::QH2(const std::string &batch,
                 z_from_region = true;
             }
         }
-        if (!z_from_region){
+        if (!z_from_region && source.nlongtracks_high() > source.nlongtracks_low()){
             total3 ->GetZaxis()->SetRangeUser(source.nlongtracks_low(), source.nlongtracks_high());
             passed3->GetZaxis()->SetRangeUser(source.nlongtracks_low(), source.nlongtracks_high());
         }

@@ -44,11 +44,13 @@ std::string latex(const std::string &particle){
 
 QHistogramSource study_source(const std::string &particle,
                               const std::string &fiducial,
-                              const CS           cut_scheme){
+                              const CS           cut_scheme,
+                              const bool         complement = false){
     const std::string probe = probe_particle(particle);
     return QHistogramSource::probnn_study(BASE_DIR + probe + "/" + fiducial + "/",
                                           probe,
-                                          cut_scheme);
+                                          cut_scheme,
+                                          complement);
 }
 
 bool source_file_exists(const std::string &first_particle,
@@ -113,9 +115,19 @@ void make_curve(const std::string &fiducial,
     const QHistogramSource id_product  = study_source(first_particle,  fiducial, CS::ProbNNTanhNotSecond);
     const QHistogramSource mis_product = study_source(second_particle, fiducial, CS::ProbNNTanhNotSecond);
 
+    // Complement sources: the "< (1 - tanh(u))" histograms. Their thresholds are
+    // dense as the discriminator -> 0, which is exactly the high-ID-efficiency end
+    // of the ROC where the plain "> tanh(u)" grid steps by 2e-3 and leaves only a
+    // handful of points. Merging both scans into one curve fills that end in.
+    const QHistogramSource id_probnn_c  = study_source(first_particle,  fiducial, CS::ProbNNTanh, true);
+    const QHistogramSource mis_probnn_c = study_source(second_particle, fiducial, CS::ProbNNTanh, true);
+
+    const QHistogramSource id_product_c  = study_source(first_particle,  fiducial, CS::ProbNNTanhNotSecond, true);
+    const QHistogramSource mis_product_c = study_source(second_particle, fiducial, CS::ProbNNTanhNotSecond, true);
+
     const std::string dll_label = "#Delta log #it{L} (" + latex(first_particle) + " #minus " + latex(second_particle) + ")";
     const std::string probnn_label = "#it{p}_{NN} (" + latex(first_particle) + ")";
-    const std::string product_label = "#it{p}_{NN} (" + latex(first_particle) + ") (1 - #it{p}_{NN} (" + latex(second_particle) + "))";
+    const std::string product_label = "#it{p}_{NN} (" + latex(first_particle) + ") (1 #minus #it{p}_{NN} (" + latex(second_particle) + "))";
 
     const std::unordered_map<std::string, Color_t> colours = {
         {dll_label,     kRed + 2},
@@ -138,19 +150,39 @@ void make_curve(const std::string &fiducial,
         added_curves++;
     }
 
-    double probnn_strictest = 7.;
-    if (common_continuous_range(probnn_label, first_particle, second_particle,
-                                0., 7., .002, id_probnn, mis_probnn, probnn_strictest)){
-        curves.add_curve(BATCH, POLARITY, probnn_label, 0., probnn_strictest, .002,
-                         id_probnn, mis_probnn);
+    // Each ProbNN curve is built from two scans of the same discriminator: the
+    // plain "> tanh(u)" grid, plus the "< (1 - tanh(u))" complement grid. Each is
+    // truncated independently at the last cut whose ROOT files are present.
+    auto add_probnn_curve = [&](const std::string &label,
+                                const QHistogramSource &id_plain,
+                                const QHistogramSource &mis_plain,
+                                const QHistogramSource &id_complement,
+                                const QHistogramSource &mis_complement){
+        std::vector<QROCScan> scans;
+
+        double plain_strictest = 7.;
+        if (common_continuous_range(label, first_particle, second_particle,
+                                    0., 7., .002, id_plain, mis_plain, plain_strictest)){
+            scans.push_back(QROCScan{&id_plain, &mis_plain, 0., plain_strictest, .002});
+        }
+
+        double complement_strictest = 7.;
+        if (common_continuous_range(label + " (complement)", first_particle, second_particle,
+                                    0., 7., .002, id_complement, mis_complement,
+                                    complement_strictest)){
+            scans.push_back(QROCScan{&id_complement, &mis_complement, 0., complement_strictest, .002});
+        }
+
+        if (scans.empty()) return false;
+        curves.add_curve(BATCH, POLARITY, label, scans);
+        return true;
+    };
+
+    if (add_probnn_curve(probnn_label, id_probnn, mis_probnn, id_probnn_c, mis_probnn_c)){
         added_curves++;
     }
 
-    double product_strictest = 7.;
-    if (common_continuous_range(product_label, first_particle, second_particle,
-                                0., 7., .002, id_product, mis_product, product_strictest)){
-        curves.add_curve(BATCH, POLARITY, product_label, 0., product_strictest, .002,
-                         id_product, mis_product);
+    if (add_probnn_curve(product_label, id_product, mis_product, id_product_c, mis_product_c)){
         added_curves++;
     }
 

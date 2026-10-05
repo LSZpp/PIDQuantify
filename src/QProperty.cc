@@ -19,6 +19,23 @@ std::string QProperty::_find_probe_particle() const{
     return "null_result";
 }
 
+double QProperty::threshold() const{
+    switch (_source.cut_scheme()){
+        case QHistogramSource::CutScheme::ProbNN:
+            return std::exp(_cut_value);
+        case QHistogramSource::CutScheme::ProbNNLinear:
+            return _cut_value / 100.0;
+        case QHistogramSource::CutScheme::ProbNNTanh:
+        case QHistogramSource::CutScheme::ProbNNTanhNotSecond:
+            // A complement source addresses the "< (1 - tanh(u))" files.
+            return _source.probnn_complement() ? 1. - std::tanh(_cut_value)
+                                               : std::tanh(_cut_value);
+        case QHistogramSource::CutScheme::DLL:
+        default:
+            return _cut_value;
+    }
+}
+
 std::string QProperty::construct_cut_string() const{
     // ProbNN schemes: the discriminator characterises the first (ID) particle,
     // so it is based on PROBNN_<first_particle> regardless of the source sample.
@@ -48,19 +65,22 @@ std::string QProperty::construct_cut_string() const{
             }
         }
 
-        double threshold = 0.;
-        int precision = 10;
-        if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNN){
-            threshold = std::exp(_cut_value);
-        } else if (_source.cut_scheme() == QHistogramSource::CutScheme::ProbNNLinear){
-            threshold = _cut_value / 100.0;
-        } else{
-            threshold = std::tanh(_cut_value);
-            precision = 9;
+        const bool is_tanh =
+            _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNTanh ||
+            _source.cut_scheme() == QHistogramSource::CutScheme::ProbNNTanhNotSecond;
+
+        // Complement sources read the "< (1 - tanh(u))" files, which only the
+        // atanh grids produce.
+        if (_source.probnn_complement() && !is_tanh){
+            this->print();
+            throw std::runtime_error("ProbNN complement cuts exist only for the atanh cut schemes");
         }
+
+        const int precision = is_tanh ? 9 : 10;
+
         std::ostringstream oss;
-        oss << std::fixed << std::setprecision(precision) << threshold;
-        return discriminator + ">" + oss.str();
+        oss << std::fixed << std::setprecision(precision) << this->threshold();
+        return discriminator + (_source.probnn_complement() ? "<" : ">") + oss.str();
     }
 
     // Construct the map for finding the cut string with different cases

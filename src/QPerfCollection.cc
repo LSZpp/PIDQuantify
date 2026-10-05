@@ -12,10 +12,12 @@
 
 QPerfCollection::QPerfCollection(const std::string &first_particle,
                                  const std::string &second_particle,
-                                 const double cut)
+                                 const double cut,
+                                 const QRegion *region)
                                 :_first_particle(first_particle),
                                  _second_particle(second_particle),
-                                 _cut(cut){
+                                 _cut(cut),
+                                 _region(region){
 }
 
 void QPerfCollection::add_perf(const std::string &batch,
@@ -38,7 +40,8 @@ void QPerfCollection::add_perf(const std::string &batch,
                                        _second_particle,
                                        "ID",
                                        _cut,
-                                       source);
+                                       source,
+                                       _region);
     _perf_figures.push_back({name, perf_figure});
 }
 
@@ -62,7 +65,8 @@ void QPerfCollection::add_perf(const std::vector<std::string> &batches,
                                        _second_particle,
                                        "ID",
                                        _cut,
-                                       source);
+                                       source,
+                                       _region);
     _perf_figures.push_back({name, perf_figure});
 }
 
@@ -70,7 +74,24 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
                                      const double min_efficiency_range,
                                      const double max_efficiency_range,
                                      const std::unordered_map<std::string, Color_t> *colour_map,
-                                     const std::unordered_map<std::string, Style_t> *style_map){
+                                     const std::unordered_map<std::string, Style_t> *style_map,
+                                     const std::unordered_map<std::string, Size_t>  *size_map){
+    create_figures(canvas_name,
+                   min_efficiency_range, max_efficiency_range,
+                   min_efficiency_range, max_efficiency_range,
+                   colour_map,
+                   style_map,
+                   size_map);
+}
+
+void QPerfCollection::create_figures(const std::string &canvas_name,
+                                     const double min_efficiency_range_p,
+                                     const double max_efficiency_range_p,
+                                     const double min_efficiency_range_eta,
+                                     const double max_efficiency_range_eta,
+                                     const std::unordered_map<std::string, Color_t> *colour_map,
+                                     const std::unordered_map<std::string, Style_t> *style_map,
+                                     const std::unordered_map<std::string, Size_t>  *size_map){
     // Declare canvases
     std::string canvas_name_p   = canvas_name + "_p"  ;
     std::string canvas_name_eta = canvas_name + "_eta";
@@ -114,7 +135,11 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
                             : style_map->at(perf_figures_iterator->first);    // defined style of marker
             perf_figure->SetMarkerStyle(style);
             perf_figure->SetTitle("");
-            perf_figure->SetMarkerSize(1.2);
+            Size_t size = ((size_map == nullptr) ||
+                           (size_map->find(perf_figures_iterator->first) == size_map->end()))
+                          ? 1.2
+                          : size_map->at(perf_figures_iterator->first);    // defined size of marker
+            perf_figure->SetMarkerSize(size);
             Color_t colour = ((colour_map == nullptr) ||
                               (colour_map->find(perf_figures_iterator->first) == colour_map->end()))
                              ? starting_colour + curve_count
@@ -127,13 +152,21 @@ void QPerfCollection::create_figures(const std::string &canvas_name,
             perf_figure->GetXaxis()->SetTitleSize  ( .044   );
             perf_figure->GetXaxis()->SetLabelSize  ( .044   );
             perf_figure->GetXaxis()->SetTitleOffset(1.      );
-            if (projection_direction == "p"  ) perf_figure->GetXaxis()->SetRangeUser(15.e3, 110.e3);
+            // Down to 9300 so the lowest momentum bin is actually visible: the
+            // proton histograms start there, and with a 15000 lower bound that
+            // bin's marker (centre 13500) fell outside the window and looked
+            // like a missing point.
+            if (projection_direction == "p"  ) perf_figure->GetXaxis()->SetRangeUser(9.3e3, 110.e3);
             if (projection_direction == "eta") perf_figure->GetXaxis()->SetRangeUser(1.5, 5);
             perf_figure->GetYaxis()->SetTitle      (y_label.c_str());
             perf_figure->GetYaxis()->SetTitleSize  ( .044   );
             perf_figure->GetYaxis()->SetLabelSize  ( .044   );
-            perf_figure->GetYaxis()->SetRangeUser  (min_efficiency_range,
-                                                    max_efficiency_range);
+            perf_figure->GetYaxis()->SetRangeUser  (projection_direction == "p"
+                                                    ? min_efficiency_range_p
+                                                    : min_efficiency_range_eta,
+                                                    projection_direction == "p"
+                                                    ? max_efficiency_range_p
+                                                    : max_efficiency_range_eta);
             perf_figure->GetYaxis()->SetTitleOffset(1.      );
         };      // small function that provides some basic formatting
         legend->AddEntry(perf_figure_p, perf_figures_iterator->first.c_str(), "P");

@@ -145,6 +145,23 @@ void QROCCollection::add_curve(const std::string &batch,
     _curves.insert({name, curve});
 }
 
+void QROCCollection::add_curve(const std::string &batch,
+                               const std::string &polarity,
+                               const std::string &name,
+                               const std::vector<QROCScan> &scans,
+                               const QReweight   *reweight){
+    // Several scans, one curve: used to merge a ProbNN ">" scan with its "<"
+    // complement scan, which fills in the high-ID-efficiency end of the curve.
+    QROCCurve *curve = new QROCCurve(batch,
+                                     polarity,
+                                     _first_particle,
+                                     _second_particle,
+                                     scans,
+                                     _region,
+                                     reweight);
+    _curves.insert({name, curve});
+}
+
 void QROCCollection::add_curve(const std::vector<std::string> &batches,
                                const std::vector<std::string> &polarities,
                                const std::string &name){
@@ -191,7 +208,8 @@ void QROCCollection::create_figure(const std::string &canvas_name,
                                    const std::unordered_map<std::string, Color_t> *colour_map,
                                    const std::unordered_map<std::string, Style_t> *marker_map,
                                    const std::pair<double, double> &x_range,
-                                   const std::pair<double, double> &y_range){
+                                   const std::pair<double, double> &y_range,
+                                   const std::unordered_map<std::string, Size_t> *size_map){
     // Declare a canvas
     _canvas = new TCanvas(canvas_name.c_str(), canvas_name.c_str(), 800, 600);
     _canvas->cd();
@@ -232,7 +250,11 @@ void QROCCollection::create_figure(const std::string &canvas_name,
                                ? 21
                                : marker_map->at(curves_iterator->first);
         curve->SetMarkerStyle(marker_style);
-        curve->SetMarkerSize(.6);
+        Size_t marker_size = ((size_map == nullptr) ||
+                              (size_map->find(curves_iterator->first) == size_map->end()))
+                             ? .6
+                             : size_map->at(curves_iterator->first);
+        curve->SetMarkerSize(marker_size);
         curve->SetMarkerColor(colour);
         curve->SetLineColor(colour);
         curve->SetTitle("");

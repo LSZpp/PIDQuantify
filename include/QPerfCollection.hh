@@ -34,12 +34,21 @@ private:
     const std::string _first_particle;
     const std::string _second_particle;
     const double      _cut;
+    const QRegion    *_region = nullptr;  // optional phase-space restriction applied
+                                          // to every figure in the collection
 
 public:
     QPerfCollection(const std::string &first_particle,
                     const std::string &second_particle, 
-                    const double       cut);
-                                                 // constructor
+                    const double       cut,
+                    const QRegion     *region = nullptr);
+                                                 // constructor. A region restricts every
+                                                 // figure's projections: the eta profile
+                                                 // is built only from the momentum bins
+                                                 // inside it (and the p profile only from
+                                                 // the eta bins inside it), so samples
+                                                 // whose histograms cover different
+                                                 // momentum ranges stay comparable
 
     void add_perf(const std::string &batch,
                   const std::string &polarity,
@@ -66,8 +75,22 @@ public:
                         const double min_efficiency_range =  .8,
                         const double max_efficiency_range = 1.05,
                         const std::unordered_map<std::string, Color_t> *colour_map = nullptr,
-                        const std::unordered_map<std::string, Style_t> *style_map  = nullptr);
+                        const std::unordered_map<std::string, Style_t> *style_map  = nullptr,
+                        const std::unordered_map<std::string, Size_t>  *size_map   = nullptr);
                             // function that creates the figures for p and eta
+
+    void create_figures(const std::string &canvas_name,
+                        const double min_efficiency_range_p,
+                        const double max_efficiency_range_p,
+                        const double min_efficiency_range_eta,
+                        const double max_efficiency_range_eta,
+                        const std::unordered_map<std::string, Color_t> *colour_map = nullptr,
+                        const std::unordered_map<std::string, Style_t> *style_map  = nullptr,
+                        const std::unordered_map<std::string, Size_t>  *size_map   = nullptr);
+                            // overload giving the p and the eta canvas their own
+                            // vertical range: the two projections rarely cover the
+                            // same efficiencies, so a single shared range wastes
+                            // the axis on whichever projection is the flatter one
 
     void export_canvases();
                     // function that exports the canvases

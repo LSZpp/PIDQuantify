@@ -1,0 +1,31 @@
+[I 260714 10:19:46 plot_calib_distributions:203] Running PIDCalib2 plot_calib_distributions with the following config:
+[I 260714 10:19:46 utils:152] =============
+[I 260714 10:19:46 utils:155] sample       : Turbo17
+[I 260714 10:19:46 utils:155] magnet       : up
+[I 260714 10:19:46 utils:155] particle     : P_IncLc
+[I 260714 10:19:46 utils:155] bin_vars     : ['P', 'ETA']
+[I 260714 10:19:46 utils:155] output_dir   : /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_Turbo17_magup_positive/P_IncLc
+[I 260714 10:19:46 utils:155] format       : pdf
+[I 260714 10:19:46 utils:155] binning_file : /home/lins/u3_PIDQuantify/figures/PROBNN_study/binning_uniform_sweights.json
+[I 260714 10:19:46 utils:155] bins         : 50
+[I 260714 10:19:46 utils:155] force_uniform: False
+[I 260714 10:19:46 utils:155] cuts         : ['trackcharge>0']
+[I 260714 10:19:46 utils:155] max_files    : 60
+[I 260714 10:19:46 utils:155] verbose      : False
+[I 260714 10:19:46 utils:155] version      : 1.5.3
+[I 260714 10:19:46 utils:156] =============
+[W 260714 10:19:46 pid_data:302] You are using the --max-files option; it should be used only for testing
+[W 260714 10:19:46 pid_data:130] Cut variable 'Lc_M' is not a known alias, using raw variable
+[W 260714 10:19:46 pid_data:130] Cut variable 'Lc_M' is not a known alias, using raw variable
+[I 260714 10:19:46 plot_calib_distributions:272] 60 calibration files from EOS will be processed
+[I 260714 10:19:46 binning:529] Loading binnings from /home/lins/u3_PIDQuantify/figures/PROBNN_study/binning_uniform_sweights.json
+[I 260714 10:20:39 plot_calib_distributions:474] Processed 60/60 files
+[I 260714 10:20:39 utils:885] 5485695/5696971 (96.3%) events passed binning range cut
+[I 260714 10:20:39 utils:885] 3830375/5485695 (69.8%) events passed hard-coded cut
+[I 260714 10:20:39 utils:885] 1901999/3830375 (49.7%) events passed user cut
+[I 260714 10:20:39 plot_calib_distributions:523] Saving histograms to /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_Turbo17_magup_positive/P_IncLc/plot_calib_distributions.pkl
+[I 260714 10:20:39 plot_calib_distributions:508] Saving plot /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_Turbo17_magup_positive/P_IncLc/P.pdf
+[I 260714 10:20:39 plot_calib_distributions:508] Saving plot /home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_Turbo17_magup_positive/P_IncLc/ETA.pdf
+[I 260714 10:20:44 pklhisto2root:168] Converting histogram 'P'
+[I 260714 10:20:44 pklhisto2root:168] Converting histogram 'ETA'
+[I 260714 10:20:44 pklhisto2root:172] Writing ROOT histograms to '/home/lins/u3_PIDQuantify/figures/PROBNN_study/pidcalib_sweights_uniform_Turbo17_magup_positive/P_IncLc/plot_calib_distributions.root'
