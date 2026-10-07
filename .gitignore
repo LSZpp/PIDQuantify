@@ -12,3 +12,7 @@
 # from the ENTIRE history and force-pushes a scrubbed mirror to GitHub (that
 # mirror carries its own .gitignore that DOES exclude them). See that script.
 # -------------------------------------------------------------------------
+
+# CERN plot data - kept on GitLab only, never on this public mirror.
+macro_*.C
+*.pdf
