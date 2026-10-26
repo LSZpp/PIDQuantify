@@ -1,4 +1,5 @@
 #include "QHistogramSource.hh"
+#include "TSystem.h"
 
 #include <stdexcept>
 #include <unordered_map>
@@ -127,6 +128,11 @@ std::string QHistogramSource::_finals_dataset(const std::string &batch,
         if (batch == "24b4")   return "2024_WithUT_block4";
         if (batch == "24b4p2") return "2024_WithUT_block4_partition2";
         if (batch == "24b4p3") return "2024_WithUT_block4_partition3";
+    }
+    if (sample_set == "Lc") {
+        if (batch == "24b4")   return "Lc_2024_block4";
+        if (batch == "24b4p2") return "Lc_2024_block4_partition2";
+        if (batch == "24b4p3") return "Lc_2024_block4_partition3";
     }
 
     const std::unordered_map<std::string, std::string> finals_batch_map = {
@@ -318,13 +324,32 @@ std::string QHistogramSource::path(const std::string &batch,
         filename_probe_particle = _finals_probe_particle(batch, probe_particle, _sample_set);
     }
 
-    return   _histogram_directory()
-           + "effhists-"
+    const std::string filename = "effhists-"
            + dataset + "-"
            + polarity + "-"
            + filename_probe_particle + "-"
            + filename_cut_string(cut_string) + "-"
            + _binning_suffix + ".root";
+
+    // The unified launchers keep each dataset's histograms and logs together.
+    // Continue accepting the older flat tree when the new files are absent.
+    const std::string directory = _histogram_directory();
+    if (_mode == NamingMode::Finals) {
+        std::string alias = batch;
+        if (alias == "s26c1" || alias == "s26c2") alias.erase(0, 1);
+        if (alias == "25c1" || alias == "25c4" || alias == "26c1" || alias == "26c2")
+            alias += polarity == "up" ? "u" : "d";
+        std::string scheme_filename = filename;
+        if (_binning_suffix.find("bin_scheme_hi_stats_sim") == std::string::npos)
+            scheme_filename.insert(scheme_filename.size() - 5, "-bin_scheme_hi_stats_sim");
+        const std::string grid = _cut_scheme == CutScheme::ProbNNLinear ? "ProbNNLinear/"
+                               : _cut_scheme == CutScheme::ProbNN ? "ProbNNLog/" : "";
+        for (const auto &name : {scheme_filename, filename}) {
+            const std::string path = directory + alias + "/" + grid + name;
+            if (!gSystem->AccessPathName(path.c_str())) return path;
+        }
+    }
+    return directory + filename;
 }
 
 std::string QHistogramSource::filename_cut_string(const std::string &cut_string) const{

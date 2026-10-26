@@ -61,7 +61,7 @@ outputs stay where they are; new outputs use `24b4p2` and `24b4p3`.
 ```bash
 root -l -b -q 'P_proxy.C()'
 root -l -b -q 'A_cache.C("both:24b4:b")'
-# Wait for A. Omit A if these caches already exist.
+# Wait for A. Omit A only if both particles' ROOT cache files already exist.
 root -l -b -q 'B_histogramming.C("both:24b4p2,24b4p3")'
 root -l -b -q 'D_fit_data.C("both:24b4p2,24b4p3")'
 root -l -b -q 'E_fit_yields.C("both:24b4p2,24b4p3")'
@@ -73,6 +73,11 @@ root -l -b -q 'J_effhists.C("both:24b4p2,24b4p3:l:b")'
 
 Do not run H for these partitions. To process full Block 4 instead, use `24b4`;
 that alias supports normal EOS publication.
+
+B checks the actual cache ROOT files before starting any histogramming. An empty
+`c/` directory is not a completed cache. In particular, an existing L0 Block-4
+cache does not supply the separate Lc cache; create that with
+`A_cache.C("LambdaC:24b4:b")` and wait for it to finish.
 
 ## Simulation preparation
 
@@ -125,8 +130,9 @@ Pass the normal or local histogram root to the plotting source as appropriate.
 
 ## Resources and authentication
 
-A requests 128GB per job and reads its CPU count from cache JSON `num_threads`
-(currently 50 per L0 stream, 8 for Lc). F requests one CPU for L0 and two for Lc,
+A requests 16GB per Lc job and 256GB per L0 job, and reads its CPU count
+from cache JSON `num_threads`
+(currently 50 per L0 stream, 1 for Lc). F requests one CPU for L0 and two for Lc,
 one original file per cluster, and leaves memory at the Condor default. J requests
 one CPU and 8GB per dimension/grid job. Other stages run locally.
 

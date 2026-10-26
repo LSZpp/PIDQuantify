@@ -17,7 +17,7 @@ void A_cache(std::string selection, bool dry_run = false) {
             job.directory = _stage(sample, "c", pt);
             job.environment = env;
             job.cpus = _cores(config, "num_threads", 1);
-            job.memory = "128GB";
+            job.memory = particle == "Lc" ? "16GB" : "256GB";
             job.dataset = sample.dataset;
             job.required = {config};
             job.command = _python(env) + " -m src.pidcalib_sweight_fits.apps.cache"
